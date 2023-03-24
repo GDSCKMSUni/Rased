@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -57,7 +58,6 @@ class _HomeScreenMobile extends StatelessWidget {
       controller: scrollController,
       slivers: [
         SliverAppBar(
-          brightness: Brightness.light,
           backgroundColor: Colors.white,
           title: Text(
             'المجتمع',
@@ -69,7 +69,7 @@ class _HomeScreenMobile extends StatelessWidget {
             ),
           ),
           centerTitle: false,
-          floating: true,
+          floating: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
           // actions: [
           //   CircleButton(
           //     icon: Icons.search,

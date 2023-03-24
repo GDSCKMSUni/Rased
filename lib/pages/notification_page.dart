@@ -24,7 +24,7 @@ class NotificationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(child: Icon(Ionicons.notifications_off_outline, size: 100,),),
-              Text("You Not have Notification", textAlign: TextAlign.center,  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
+              Text("You DO Not have Notification", textAlign: TextAlign.center,  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),),
             ],
           ),
         ),
