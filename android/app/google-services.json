@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "842759116344",
+    "project_id": "rasedapp-c6e78",
+    "storage_bucket": "rasedapp-c6e78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842759116344:android:b4dbe7a1ee280d146ab8cd",
+        "android_client_info": {
+          "package_name": "com.rasedappye.rasedapp_ye"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842759116344-7rmqael47mlmo50seldd7b9pmvcki0ef.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rasedappye.rasedapp_ye",
+            "certificate_hash": "50fcd9184757f48f87b8e09baa6f44f6f2209577"
+          }
+        },
+        {
+          "client_id": "842759116344-7i7i1ap7h4ee1f112655ft4bm7kemgbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1JEfTyoxmsSzyPQmeKt5lqK0zuyG13qQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842759116344-7i7i1ap7h4ee1f112655ft4bm7kemgbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

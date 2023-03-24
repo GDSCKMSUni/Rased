@@ -1,0 +1,63 @@
+name: rasedapp_ye
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.3 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.2
+  get:
+  get_storage:
+  ionicons:
+  http:
+  localize_and_translate:
+  intl:
+  timeago:
+  helpers:
+  lottie:
+  cached_network_image:
+  firebase_auth:
+  firebase_core:
+  firebase_messaging:
+  intl_phone_number_input:
+  pinput:
+  url_launcher:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+
+
+flutter:
+
+
+  uses-material-design: true
+
+
+  assets:
+    - assets/langs/
+    - assets/images/
+    - assets/anims/
+  fonts:
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins.ttf
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo.ttf
