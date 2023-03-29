@@ -25,9 +25,9 @@ dependencies:
   helpers:
   lottie:
   cached_network_image:
-  firebase_auth:
-  firebase_core:
-  firebase_messaging:
+  # firebase_auth:
+  # firebase_core:
+  # firebase_messaging:
   intl_phone_number_input:
   pinput:
   url_launcher:

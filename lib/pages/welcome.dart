@@ -71,7 +71,7 @@ class _WelcomeState extends State<Welcome> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppThemes.mainColor,
-        child: const Icon(Icons.pin_drop),
+        child: const Icon(Icons.pin_drop,color: Colors.white,),
         onPressed: (){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainPage()));
         },

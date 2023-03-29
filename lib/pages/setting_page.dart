@@ -8,8 +8,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 class SettingPage extends StatefulWidget {
@@ -44,7 +44,7 @@ class _SettingPageState extends State<SettingPage> {
               textAlign: TextAlign.center,
             ),
             subtitle: Headline5(
-              "${FirebaseAuth.instance.currentUser!.phoneNumber}",
+              "A",//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
               textAlign: TextAlign.center,
             ),
           ),
@@ -107,14 +107,14 @@ class _SettingPageState extends State<SettingPage> {
                     subtitle: "logoutConfirm".tr(),
                     confirm: ElevatedButton(
                         onPressed: () async {
-                          await FirebaseMessaging.instance
-                              .unsubscribeFromTopic("user");
-                          await FirebaseMessaging.instance.unsubscribeFromTopic(
-                              FirebaseAuth.instance.currentUser!.uid);
-
-                          await FirebaseAuth.instance
-                              .signOut()
-                              .then((value) => Get.offAll(() => SplashPage()));
+                          // await FirebaseMessaging.instance
+                          //     .unsubscribeFromTopic("user");
+                          // await FirebaseMessaging.instance.unsubscribeFromTopic(
+                          //     FirebaseAuth.instance.currentUser!.uid);
+                          //
+                          // await FirebaseAuth.instance
+                          //     .signOut()
+                          //     .then((value) => Get.offAll(() => SplashPage()));
                         },
                         child: Text("yes".tr())),
                     cancel: ElevatedButton(

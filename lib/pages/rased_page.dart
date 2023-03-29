@@ -19,8 +19,9 @@ class RasedPage extends StatelessWidget {
       ),
       body: Directionality(
         textDirection: TextDirection.rtl,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const textFieldWidget(hint: 'الاسم',),
             const textFieldWidget(hint: 'التاريخ'),

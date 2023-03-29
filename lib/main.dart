@@ -1,6 +1,6 @@
 
 
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:rasedapp_ye/splah_page.dart';
 
 import '../utils/app_themes.dart';
@@ -26,7 +26,7 @@ import 'pages/setting_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   await GetStorage.init();
   GetStorage().writeIfNull('darkMode', false);
   timeago.setLocaleMessages('ar', timeago.ArMessages());

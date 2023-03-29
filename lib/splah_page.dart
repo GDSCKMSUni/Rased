@@ -1,10 +1,11 @@
 import 'package:rasedapp_ye/pages/get_started.dart';
+import 'package:rasedapp_ye/pages/get_started.dart';
 
 import '../main.dart';
 import 'package:helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 import 'login/login_page.dart';
@@ -17,10 +18,10 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  // FirebaseAuth auth = FirebaseAuth.instance;
 
   goToLogin() {
-    if (auth.currentUser != null) {
+    if (/*auth.currentUser != null*/ 1==1) {
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => GetStarted()));
     } else {
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => LoginPage()));
@@ -58,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                Text("جميع الحقوق محفوظة لدى Rased"),
+                Text("جميع الحقوق محفوظة لدى Rased",textDirection: TextDirection.rtl,),
 
               ],)
 

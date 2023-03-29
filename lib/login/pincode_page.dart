@@ -7,8 +7,8 @@ import 'package:helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 class PincodePage extends StatefulWidget {
@@ -37,37 +37,37 @@ class _PincodePageState extends State<PincodePage> {
   bool isSendLoading = true;
   bool checkPinLoading = false;
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  // FirebaseAuth auth = FirebaseAuth.instance;
 
   _verifyPhone() async {
-    await auth.verifyPhoneNumber(
-        phoneNumber: widget.phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          //await auth.signInWithCredential(credential);
-          /* .then((value) async {
-            if (value.user != null) {
-              print(value.user!.phoneNumber);
-            }
-          });*/
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          print("-" * 50);
-          print(e.message);
-        },
-        codeSent: (String verificationId, int? resendToken) async {
-          print("code sent");
-          setState(() {
-            _verificationCode = verificationId;
-            verificationID = verificationId;
-            isSendLoading = false;
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationID) {
-          /* setState(() {
-            //_verificationCode = verificationID;
-          });*/
-        },
-        timeout: const Duration(minutes: 2));
+    // await auth.verifyPhoneNumber(
+    //     phoneNumber: widget.phoneNumber,
+    //     verificationCompleted: (PhoneAuthCredential credential) async {
+    //       //await auth.signInWithCredential(credential);
+    //       /* .then((value) async {
+    //         if (value.user != null) {
+    //           print(value.user!.phoneNumber);
+    //         }
+    //       });*/
+    //     },
+    //     verificationFailed: (FirebaseAuthException e) {
+    //       print("-" * 50);
+    //       print(e.message);
+    //     },
+    //     codeSent: (String verificationId, int? resendToken) async {
+    //       print("code sent");
+    //       setState(() {
+    //         _verificationCode = verificationId;
+    //         verificationID = verificationId;
+    //         isSendLoading = false;
+    //       });
+    //     },
+    //     codeAutoRetrievalTimeout: (String verificationID) {
+    //       /* setState(() {
+    //         //_verificationCode = verificationID;
+    //       });*/
+    //     },
+    //     timeout: const Duration(minutes: 2));
   }
 
   @override
@@ -143,18 +143,18 @@ class _PincodePageState extends State<PincodePage> {
                 // await auth.signInWithCredential(credential);
 
                 try {
-                  PhoneAuthCredential credential =
-                  PhoneAuthProvider.credential(
-                      verificationId: verificationID, smsCode: pin);
-                  await auth
-                      .signInWithCredential(credential)
-                      .then((value) async {
-                    print(value.user.toString());
-                    if (value.user != null) {
-                      await FirebaseMessaging.instance
-                          .subscribeToTopic("user");
-                      await FirebaseMessaging.instance
-                          .subscribeToTopic(auth.currentUser!.uid);
+                  // PhoneAuthCredential credential =
+                  // PhoneAuthProvider.credential(
+                  //     verificationId: verificationID, smsCode: pin);
+                  // await auth
+                  //     .signInWithCredential(credential)
+                  //     .then((value) async {
+                  //   print(value.user.toString());
+                  //   if (value.user != null) {
+                  //     await FirebaseMessaging.instance
+                  //         .subscribeToTopic("user");
+                  //     await FirebaseMessaging.instance
+                  //         .subscribeToTopic(auth.currentUser!.uid);
 
                       // await AppData().checkUserExist(
                       //     userUid: value.user!.uid,
@@ -177,9 +177,10 @@ class _PincodePageState extends State<PincodePage> {
                                 Get.offAll(() => const MainPage());
                               },
                               child: Text("ok".tr())));
-                    }
-                  });
-                } catch (e) {
+                  //   }
+                  // });
+                }
+                catch (e) {
                   print("-" * 50);
                   print("$e");
                   FocusScope.of(context).unfocus();
