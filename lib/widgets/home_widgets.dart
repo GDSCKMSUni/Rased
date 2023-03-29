@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:helpers/helpers.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -36,13 +37,27 @@ class _HomeState extends State<Home> {
     'Yemen'
   ]; //the list to hold our selected cities. Deafult is London
 
-  List consolidatedWeatherList = []; //To hold our weather data after api call
+  List consolidatedWeatherList = [{
+    'the_temp':15,
+    'applicable_date':"2023-03-29",
+    'weather_state_name':"Samet"
+  },
+  {
+    'the_temp':17,
+    'applicable_date':"2023-03-30",
+    'weather_state_name':"Samet"
+  },
+  {
+    'the_temp':12,
+    'applicable_date':"2023-04-01",
+    'weather_state_name':"Samet"
+  }]; //To hold our weather data after api call
 
   //Api calls url
   String searchLocationUrl =
-      'https://www.metaweather.com/api/location/search/?query='; //To get the woeid
+      'https://www.metraweather.com/api/location/search/?query='; //To get the woeid
   String searchWeatherUrl =
-      'https://www.metaweather.com/api/location/'; //to get weather details using the woeid
+      'https://www.metraweather.com/api/location/'; //to get weather details using the woeid
 
   //Get the Where on earth id
   void fetchLocation(String location) async {
@@ -169,232 +184,316 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
           padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                location,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30.0,
+          child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (overScroll) {
+                        overScroll.disallowGlow();
+                        return false;
+                      },
+            child: ListView(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  location,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                  ),
                 ),
-              ),
-              Text(
-                currentDate,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16.0,
+                Text(
+                  currentDate,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16.0,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Container(
-                width: size.width,
-                height: 200,
-                decoration: BoxDecoration(
-                    color: AppThemes.primaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppThemes.primaryColor.withOpacity(.5),
-                        offset: const Offset(0, 25),
-                        blurRadius: 10,
-                        spreadRadius: -12,
-                      )
-                    ]),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                      top: -40,
-                      left: 20,
-                      child: imageUrl == ''
-                          ? const Text('')
-                          : Image.asset(
-                        'assets/images/' + imageUrl + '.png',
-                        width: 150,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 30,
-                      left: 20,
-                      child: Text(
-                        weatherStateName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: size.width,
+                  height: 200,
+                  decoration: BoxDecoration(
+                      color: AppThemes.primaryColor,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppThemes.primaryColor.withOpacity(.5),
+                          offset: const Offset(0, 25),
+                          blurRadius: 10,
+                          spreadRadius: -12,
+                        )
+                      ]),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Positioned(
+                        top: -40,
+                        left: 20,
+                        child: imageUrl == ''
+                            ? const Text('')
+                            : Image.asset(
+                          'assets/images/' + imageUrl + '.png',
+                          width: 150,
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      right: 20,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
-                            child: Text(
-                              temperature.toString(),
+                      Positioned(
+                        bottom: 30,
+                        left: 20,
+                        child: Text(
+                          weatherStateName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 20,
+                        right: 20,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Text(
+                                temperature.toString(),
+                                style: TextStyle(
+                                  fontSize: 80,
+                                  fontWeight: FontWeight.bold,
+                                  foreground: Paint()..shader = linearGradient,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'o',
                               style: TextStyle(
-                                fontSize: 80,
+                                fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 foreground: Paint()..shader = linearGradient,
                               ),
-                            ),
-                          ),
-                          Text(
-                            'o',
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              foreground: Paint()..shader = linearGradient,
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // const SizedBox(
+                //   height: 50,
+                // ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      weatherItem(
+                        text: 'Wind Speed',
+                        value: windSpeed,
+                        unit: 'km/h',
+                        imageUrl: 'assets/images/logo.png',
+                      ),
+                      weatherItem(
+                          text: 'Humidity',
+                          value: humidity,
+                          unit: '',
+                          imageUrl: 'assets/images/logo.png'),
+                      weatherItem(
+                        text: 'Wind Speed',
+                        value: maxTemp,
+                        unit: 'C',
+                        imageUrl: 'assets/images/logo.png',
+                      ),
+                    ],
+                  ),
+                ),
+                // const SizedBox(
+                //   height: 30,
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Today',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    weatherItem(
-                      text: 'Wind Speed',
-                      value: windSpeed,
-                      unit: 'km/h',
-                      imageUrl: 'assets/images/logo.png',
-                    ),
-                    weatherItem(
-                        text: 'Humidity',
-                        value: humidity,
-                        unit: '',
-                        imageUrl: 'assets/images/logo.png'),
-                    weatherItem(
-                      text: 'Wind Speed',
-                      value: maxTemp,
-                      unit: 'C',
-                      imageUrl: 'assets/images/logo.png',
+                    Text(
+                      'Next 7 Days',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          color: AppThemes.primaryColor),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Today',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
-                  Text(
-                    'Next 7 Days',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                        color: AppThemes.primaryColor),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: consolidatedWeatherList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String today = DateTime.now().toString().substring(0, 10);
-                        var selectedDay =
-                        consolidatedWeatherList[index]['applicable_date'];
-                        var futureWeatherName =
-                        consolidatedWeatherList[index]['weather_state_name'];
-                        var weatherUrl =
-                        futureWeatherName.replaceAll(' ', '').toLowerCase();
-
-                        var parsedDate = DateTime.parse(
-                            consolidatedWeatherList[index]['applicable_date']);
-                        var newDate = DateFormat('EEEE')
-                            .format(parsedDate)
-                            .substring(0, 3); //formateed date
-
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,)));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            margin: const EdgeInsets.only(
-                                right: 20, bottom: 10, top: 10),
-                            width: 80,
-                            decoration: BoxDecoration(
-                                color: selectedDay == today
-                                    ? AppThemes.primaryColor
-                                    : Colors.white,
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 1),
-                                    blurRadius: 5,
-                                    color: selectedDay == today
-                                        ? AppThemes.primaryColor
-                                        : Colors.black54.withOpacity(.2),
-                                  ),
-                                ]),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  consolidatedWeatherList[index]['the_temp']
-                                      .round()
-                                      .toString() +
-                                      "C",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    color: selectedDay == today
-                                        ? Colors.white
-                                        : AppThemes.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const ClampingScrollPhysics(),
+                  child: 
+                  Row(children:consolidatedWeatherList.mapIndexed((index, e) {
+                    String today = DateTime.now().toString().substring(0, 10);
+                      var selectedDay =
+                      consolidatedWeatherList[index]['applicable_date'];
+                      var futureWeatherName =
+                      consolidatedWeatherList[index]['weather_state_name'];
+                      var weatherUrl =
+                      futureWeatherName.replaceAll(' ', '').toLowerCase();
+          
+                      var parsedDate = DateTime.parse(
+                          consolidatedWeatherList[index]['applicable_date']);
+                      var newDate = DateFormat('EEEE')
+                          .format(parsedDate)
+                          .substring(0, 3); //formateed date
+          
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,)));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          margin: const EdgeInsets.only(
+                              right: 20, bottom: 10, top: 10),
+                          width: 80,
+                          decoration: BoxDecoration(
+                              color: selectedDay == today
+                                  ? AppThemes.primaryColor
+                                  : Colors.white,
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 5,
+                                  color: selectedDay == today
+                                      ? AppThemes.primaryColor
+                                      : Colors.black54.withOpacity(.2),
                                 ),
-                                Image.asset(
-                                  'assets/images/' + weatherUrl + '.png',
-                                  width: 30,
+                              ]),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                consolidatedWeatherList[index]['the_temp']
+                                    .round()
+                                    .toString() +
+                                    "C",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: selectedDay == today
+                                      ? Colors.white
+                                      : AppThemes.primaryColor,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                Text(
-                                  newDate,
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    color: selectedDay == today
-                                        ? Colors.white
-                                        : AppThemes.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                              ),
+                              // Image.asset(
+                              //   'assets/images/' + weatherUrl + '.png',
+                              //   width: 30,
+                              // ),
+                              Text(
+                                newDate,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: selectedDay == today
+                                      ? Colors.white
+                                      : AppThemes.primaryColor,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              ],
-
-                            ),
+                              ),
+                            ],
+          
                           ),
-                        );
-                      },
-                  ),
-              ),
-
-            ],
+                        ),
+                      );
+                  }) ),
+                ),
+                // ListView.builder(
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: consolidatedWeatherList.length,
+                //     itemBuilder: (BuildContext context, int index) {
+                //       String today = DateTime.now().toString().substring(0, 10);
+                //       var selectedDay =
+                //       consolidatedWeatherList[index]['applicable_date'];
+                //       var futureWeatherName =
+                //       consolidatedWeatherList[index]['weather_state_name'];
+                //       var weatherUrl =
+                //       futureWeatherName.replaceAll(' ', '').toLowerCase();
+          
+                //       var parsedDate = DateTime.parse(
+                //           consolidatedWeatherList[index]['applicable_date']);
+                //       var newDate = DateFormat('EEEE')
+                //           .format(parsedDate)
+                //           .substring(0, 3); //formateed date
+          
+                //       return GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,)));
+                //         },
+                //         child: Container(
+                //           padding: const EdgeInsets.symmetric(vertical: 20),
+                //           margin: const EdgeInsets.only(
+                //               right: 20, bottom: 10, top: 10),
+                //           width: 80,
+                //           decoration: BoxDecoration(
+                //               color: selectedDay == today
+                //                   ? AppThemes.primaryColor
+                //                   : Colors.white,
+                //               borderRadius:
+                //               const BorderRadius.all(Radius.circular(10)),
+                //               boxShadow: [
+                //                 BoxShadow(
+                //                   offset: const Offset(0, 1),
+                //                   blurRadius: 5,
+                //                   color: selectedDay == today
+                //                       ? AppThemes.primaryColor
+                //                       : Colors.black54.withOpacity(.2),
+                //                 ),
+                //               ]),
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Text(
+                //                 consolidatedWeatherList[index]['the_temp']
+                //                     .round()
+                //                     .toString() +
+                //                     "C",
+                //                 style: TextStyle(
+                //                   fontSize: 17,
+                //                   color: selectedDay == today
+                //                       ? Colors.white
+                //                       : AppThemes.primaryColor,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //               Image.asset(
+                //                 'assets/images/' + weatherUrl + '.png',
+                //                 width: 30,
+                //               ),
+                //               Text(
+                //                 newDate,
+                //                 style: TextStyle(
+                //                   fontSize: 17,
+                //                   color: selectedDay == today
+                //                       ? Colors.white
+                //                       : AppThemes.primaryColor,
+                //                   fontWeight: FontWeight.w500,
+                //                 ),
+                //               ),
+                //             ],
+          
+                //           ),
+                //         ),
+                //       );
+                //     },
+                // ),
+          
+              ],
+            ),
           ),
         ),
 

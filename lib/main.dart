@@ -29,6 +29,7 @@ void main() async {
   // await Firebase.initializeApp();
   await GetStorage.init();
   GetStorage().writeIfNull('darkMode', false);
+  GetStorage().writeIfNull('isLogin', false);
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   await translator.init(
     localeType: LocalizationDefaultType.device,
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppThemes.darkTheme(),
       themeMode:
           GetStorage().read("darkMode") ? ThemeMode.dark : ThemeMode.light,
-      home: const SplashPage(),
+      home: HomePage()//const SplashPage(),
     );
   }
 }
