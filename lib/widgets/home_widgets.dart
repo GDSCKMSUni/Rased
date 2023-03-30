@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:helpers/helpers.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:rasedapp_ye/functions.dart';
+import 'package:rasedapp_ye/utils/urls.dart';
 
 import '../pages/detail_page.dart';
 import '../utils/app_themes.dart';
@@ -25,6 +27,8 @@ class _HomeState extends State<Home> {
   int humidity = 0;
   int windSpeed = 0;
 
+  String selectedCity = "Sanaa";
+
   var currentDate = 'Loading..';
   String imageUrl = '';
   int woeid =
@@ -37,23 +41,26 @@ class _HomeState extends State<Home> {
     'Yemen'
   ]; //the list to hold our selected cities. Deafult is London
 
-  List consolidatedWeatherList = [{
-    'the_temp':15,
-    'applicable_date':"2023-03-29",
-    'weather_state_name':"Samet"
-  },
-  {
-    'the_temp':17,
-    'applicable_date':"2023-03-30",
-    'weather_state_name':"Samet"
-  },
-  {
-    'the_temp':12,
-    'applicable_date':"2023-04-01",
-    'weather_state_name':"Samet"
-  }]; //To hold our weather data after api call
-
+  List consolidatedWeatherList = 
+  [
+  //   {
+  //   'the_temp':15,
+  //   'applicable_date':"2023-03-29",
+  //   'weather_state_name':"Samet"
+  // },
+  // {
+  //   'the_temp':17,
+  //   'applicable_date':"2023-03-30",
+  //   'weather_state_name':"Samet"
+  // },
+  // {
+  //   'the_temp':12,
+  //   'applicable_date':"2023-04-01",
+  //   'weather_state_name':"Samet"
+  // }
+  ]; //To hold our weather data after api call
   //Api calls url
+
   String searchLocationUrl =
       'https://www.metraweather.com/api/location/search/?query='; //To get the woeid
   String searchWeatherUrl =
@@ -61,52 +68,65 @@ class _HomeState extends State<Home> {
 
   //Get the Where on earth id
   void fetchLocation(String location) async {
-    var searchResult = await http.get(Uri.parse(searchLocationUrl + location));
-    var result = json.decode(searchResult.body)[0];
-    setState(() {
-      woeid = result['woeid'];
-    });
+    // var searchResult = await http.get(Uri.parse(searchLocationUrl + location));
+    // var result = json.decode(searchResult.body)[0];
+    // setState(() {
+    //   woeid = result['woeid'];
+    // });
   }
 
-  void fetchWeatherData() async {
-    var weatherResult =
-    await http.get(Uri.parse(searchWeatherUrl + woeid.toString()));
-    var result = json.decode(weatherResult.body);
-    var consolidatedWeather = result['consolidated_weather'];
+  void fetchWeatherData(String city) async {
 
-    setState(() {
-      for (int i = 0; i < 7; i++) {
-        consolidatedWeather.add(consolidatedWeather[
-        i]); //this takes the consolidated weather for the next six days for the location searched
-      }
-      //The index 0 referes to the first entry which is the current day. The next day will be index 1, second day index 2 etc...
-      temperature = consolidatedWeather[0]['the_temp'].round();
-      weatherStateName = consolidatedWeather[0]['weather_state_name'];
-      humidity = consolidatedWeather[0]['humidity'].round();
-      windSpeed = consolidatedWeather[0]['wind_speed'].round();
-      maxTemp = consolidatedWeather[0]['max_temp'].round();
+    // var weatherResult =
+    // await http.get(Uri.parse());
+    // var result = json.decode(weatherResult.body);
+    // var consolidatedWeather = result['consolidated_weather'];
+
+      var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
+      var consolidatedWeather = await getRequest(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
+
+        consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
+ 
+      // await Future.forEach([1,2,3,4,5,6,7], (element) async{
+      // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: element)));
+      // var consolidatedWeather = await getRequest(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
+
+      //   consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
+      // });
+
+    setState(()  {
+
+      // The index 0 referes to the first entry which is the current day. The next day will be index 1, second day index 2 etc...
+      temperature = consolidatedWeatherList[0]['day']['avgtemp_c'].round();
+      weatherStateName = selectedCity;
+      humidity = consolidatedWeatherList[0]['day']['avghumidity'].round();
+      windSpeed = consolidatedWeatherList[0]['day']['maxwind_kph'].round();
+      maxTemp = consolidatedWeatherList[0]['day']['max_temp'].round();
 
       //date formatting
-      var myDate = DateTime.parse(consolidatedWeather[0]['applicable_date']);
+      var myDate = DateTime.parse(consolidatedWeatherList[0]['date']);
       currentDate = DateFormat('EEEE, d MMMM').format(myDate);
 
       //set the image url
-      imageUrl = weatherStateName
+      imageUrl = consolidatedWeatherList[0]['day']['condition']['icon']
           .replaceAll(' ', '')
-          .toLowerCase(); //remove any spaces in the weather state name
+          .toLowerCase(); 
+          //remove any spaces in the weather state name
       //and change to lowercase because that is how we have named our images.
 
-      consolidatedWeatherList = consolidatedWeather
-          .toSet()
-          .toList(); //Remove any instances of dublicates from our
+      // consolidatedWeatherList = consolidatedWeather
+      //     .toSet()
+      //     .toList();
+           //Remove any instances of dublicates from our
       //consolidated weather LIST
     });
   }
 
   @override
   void initState() {
+    consolidatedWeatherList = [];
     fetchLocation(cities[0]);
-    fetchWeatherData();
+    fetchWeatherData("London");
 
     //For all the selected cities from our City model, extract the city and add it to our original cities list
     // for (int i = 0; i < selectedCities.length; i++) {
@@ -172,7 +192,7 @@ class _HomeState extends State<Home> {
                           setState(() {
                             location = newValue!;
                             fetchLocation(location);
-                            fetchWeatherData();
+                            fetchWeatherData(location);
                           });
                         }),
                   )
@@ -207,7 +227,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
                 Container(
                   width: size.width,
@@ -231,8 +251,8 @@ class _HomeState extends State<Home> {
                         left: 20,
                         child: imageUrl == ''
                             ? const Text('')
-                            : Image.asset(
-                          'assets/images/' + imageUrl + '.png',
+                            : Image.network(
+                          /*'assets/images/' +*/'http:'+ imageUrl /*+ '.png'*/,
                           width: 150,
                         ),
                       ),
@@ -278,9 +298,9 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                // const SizedBox(
-                //   height: 50,
-                // ),
+                const SizedBox(
+                  height: 50,
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Row(
@@ -306,9 +326,9 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                // const SizedBox(
-                //   height: 30,
-                // ),
+                const SizedBox(
+                  height: 30,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -329,9 +349,9 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
+                const SizedBox(
+                  height: 20,
+                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
@@ -339,21 +359,20 @@ class _HomeState extends State<Home> {
                   Row(children:consolidatedWeatherList.mapIndexed((index, e) {
                     String today = DateTime.now().toString().substring(0, 10);
                       var selectedDay =
-                      consolidatedWeatherList[index]['applicable_date'];
-                      var futureWeatherName =
-                      consolidatedWeatherList[index]['weather_state_name'];
-                      var weatherUrl =
-                      futureWeatherName.replaceAll(' ', '').toLowerCase();
+                      consolidatedWeatherList[index]['date'];
+                      // var futureWeatherName =
+                      // consolidatedWeatherList[index]['weather_state_name'];
+                      // var weatherUrl =
+                      // futureWeatherName.replaceAll(' ', '').toLowerCase();
           
                       var parsedDate = DateTime.parse(
-                          consolidatedWeatherList[index]['applicable_date']);
+                          consolidatedWeatherList[index]['date']);
                       var newDate = DateFormat('EEEE')
                           .format(parsedDate)
                           .substring(0, 3); //formateed date
-          
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,)));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,)));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 20),
@@ -379,7 +398,7 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                consolidatedWeatherList[index]['the_temp']
+                                consolidatedWeatherList[index]['day']['avgtemp_c']
                                     .round()
                                     .toString() +
                                     "C",

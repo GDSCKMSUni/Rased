@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppThemes.darkTheme(),
       themeMode:
           GetStorage().read("darkMode") ? ThemeMode.dark : ThemeMode.light,
-      home: HomePage()//const SplashPage(),
+      home: const SplashPage(),
     );
   }
 }

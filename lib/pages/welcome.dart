@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/main.dart';
+import 'package:rasedapp_ye/pages/get_started.dart';
 import 'package:rasedapp_ye/utils/app_themes.dart';
+import 'package:rasedapp_ye/utils/urls.dart';
 
 import '../models/city.dart';
 
@@ -12,10 +16,32 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+    List<City> cities = [];//City.citiesList.where((city) => city.isDefault == false).toList();
+    List<City> selectedCities = [];
+  
+  List<City> getSelectedCities(){
+    List<City> selectedCities = cities;
+    return selectedCities
+        .where((city) => city.isSelected == true)
+        .toList();
+  }
+  @override
+  void initState() {
+    super.initState();
+    fetchAllCities();
+    selectedCities = getSelectedCities();
+  }
+
+    fetchAllCities()async{
+      var response = await getRequest(URLs.getCity);
+      for(int i=0;i<response['data'].length;i++){
+        cities.add(City(isSelected: false, city: response['data'][i]['city_name'].toString(), country: response['data'][i]['country'], isDefault: false));
+        }
+        setState(() {});
+    }
   @override
   Widget build(BuildContext context) {
-    List<City> cities = City.citiesList.where((city) => city.isDefault == false).toList();
-    List<City> selectedCities = City.getSelectedCities();
+
 
 
     Size size = MediaQuery.of(context).size;
@@ -24,7 +50,7 @@ class _WelcomeState extends State<Welcome> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: AppThemes.mainColor,
-        title: Text(selectedCities.length.toString() + ' selected'),
+        title: Text(selectedCities.length.toString() + ' selected',style: AppThemes.darkTextTheme().headline6,),
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
@@ -55,7 +81,8 @@ class _WelcomeState extends State<Welcome> {
                 GestureDetector(
                     onTap: (){
                       setState(() {
-                        cities[index].isSelected =! cities[index].isSelected;
+                        cities[index].isSelected = !cities[index].isSelected;
+                        selectedCities = getSelectedCities();
                       });
                     },
                     child: Image.asset(cities[index].isSelected == true ? 'assets/images/checked.png' : 'assets/images/unchecked.png', width: 30,)),
@@ -73,7 +100,16 @@ class _WelcomeState extends State<Welcome> {
         backgroundColor: AppThemes.mainColor,
         child: const Icon(Icons.pin_drop,color: Colors.white,),
         onPressed: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainPage()));
+          if(selectedCities.length == 0){
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Please select at least one city"),duration: Duration(seconds: 3),)
+            );
+          }else{
+            
+            GetStorage().write('isLogin', true);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainPage()));
+          }
         },
       ),
     );

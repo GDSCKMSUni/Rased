@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                 shape: RoundedRectangleBorder(borderRadius: EdgeRadius.all(10)),
                 title: Center(
                   child: Headline6(
-                    "sendCode".tr(),
+                    "Vertifiy Number".tr(),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),

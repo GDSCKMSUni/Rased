@@ -1,3 +1,4 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:rasedapp_ye/pages/get_started.dart';
 import 'package:rasedapp_ye/pages/get_started.dart';
 
@@ -21,9 +22,11 @@ class _SplashPageState extends State<SplashPage> {
   // FirebaseAuth auth = FirebaseAuth.instance;
 
   goToLogin() {
-    if (/*auth.currentUser != null*/ 1==1) {
+    if (GetStorage().read('isLogin')) {
+      Future.delayed(Duration(seconds: 5), () => Get.offAll(() => MainPage()));
+    } else if(GetStorage().read('profile') !=null){
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => GetStarted()));
-    } else {
+    }else {
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => LoginPage()));
     }
   }

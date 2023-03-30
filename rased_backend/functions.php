@@ -4,8 +4,9 @@ define("MB",1048576);
 
 function filterRequest($requestName){
 
+    if(isset($_POST[$requestName]))
     return htmlspecialchars(strip_tags($_POST[$requestName]));
-
+    else return null;
 }
 
 function imageUpload($imageRequest){
