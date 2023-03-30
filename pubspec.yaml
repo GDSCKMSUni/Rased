@@ -31,6 +31,8 @@ dependencies:
   intl_phone_number_input:
   pinput:
   url_launcher:
+  path:
+  image_picker: 
 
 dev_dependencies:
   flutter_test:

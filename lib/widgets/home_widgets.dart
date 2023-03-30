@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:helpers/helpers.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:rasedapp_ye/functions.dart';
+import 'package:rasedapp_ye/models/city.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
 
 import '../pages/detail_page.dart';
@@ -21,24 +24,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   //initiatilization
-  int temperature = 0;
-  int maxTemp = 0;
+  double temperature = 0;
+  double maxTemp = 0;
   String weatherStateName = 'Loading..';
-  int humidity = 0;
-  int windSpeed = 0;
+  double humidity = 0;
+  double windSpeed = 0;
 
-  String selectedCity = "Sanaa";
+  City selectedCity = City(city: "Sanaa",cityId: 0,country: "Yemen");
 
   var currentDate = 'Loading..';
   String imageUrl = '';
-  int woeid =
+  double woeid =
   44418; //This is the Where on Earth Id for London which is our default city
-  String location = 'Yemen'; //Our default city
+  String location = 'Loading..'; //Our default city
 
   //get the cities and selected cities data
   // var selectedCities = City.getSelectedCities();
-  List<String> cities = [
-    'Yemen'
+  List<City> cities = [
+    // 'Yemen'
   ]; //the list to hold our selected cities. Deafult is London
 
   List consolidatedWeatherList = 
@@ -67,12 +70,24 @@ class _HomeState extends State<Home> {
       'https://www.metraweather.com/api/location/'; //to get weather details using the woeid
 
   //Get the Where on earth id
-  void fetchLocation(String location) async {
+  void fetchLocation(/*String location*/) async {
     // var searchResult = await http.get(Uri.parse(searchLocationUrl + location));
     // var result = json.decode(searchResult.body)[0];
     // setState(() {
     //   woeid = result['woeid'];
     // });
+    var response = await postRequest(URLs.getCity, {
+      'id' : GetStorage().read('profile')['user_id'].toString()
+    });
+    if(response != null){
+    for(int i=0;i<response['data'].length;i++){
+      cities.add(City(cityId: response['data'][i]['user_id'],
+        city: response['data'][i]['city_name'], country: response['data'][i]['country']));
+    }
+    selectedCity = cities[0];
+    location = cities[0].country;
+    }
+    // setState(() {});
   }
 
   void fetchWeatherData(String city) async {
@@ -81,15 +96,22 @@ class _HomeState extends State<Home> {
     // await http.get(Uri.parse());
     // var result = json.decode(weatherResult.body);
     // var consolidatedWeather = result['consolidated_weather'];
-
+      consolidatedWeatherList.clear();
       var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
-      var consolidatedWeather = await getRequest(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
-
-        consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
+      var consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
+        if(consolidatedWeather !=null){
+          consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
+        } 
+      date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 1)));
+      consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
+        if(consolidatedWeather !=null){
+          consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
+        }
+        
  
       // await Future.forEach([1,2,3,4,5,6,7], (element) async{
       // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: element)));
-      // var consolidatedWeather = await getRequest(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
+      // var consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
 
       //   consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
       // });
@@ -97,11 +119,11 @@ class _HomeState extends State<Home> {
     setState(()  {
 
       // The index 0 referes to the first entry which is the current day. The next day will be index 1, second day index 2 etc...
-      temperature = consolidatedWeatherList[0]['day']['avgtemp_c'].round();
-      weatherStateName = selectedCity;
-      humidity = consolidatedWeatherList[0]['day']['avghumidity'].round();
-      windSpeed = consolidatedWeatherList[0]['day']['maxwind_kph'].round();
-      maxTemp = consolidatedWeatherList[0]['day']['max_temp'].round();
+      temperature = consolidatedWeatherList[0]['day']['avgtemp_c'];
+      weatherStateName = selectedCity.city;
+      humidity = consolidatedWeatherList[0]['day']['avghumidity'];
+      windSpeed = consolidatedWeatherList[0]['day']['maxwind_kph'];
+      maxTemp = consolidatedWeatherList[0]['day']['maxtemp_c'];
 
       //date formatting
       var myDate = DateTime.parse(consolidatedWeatherList[0]['date']);
@@ -125,7 +147,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     consolidatedWeatherList = [];
-    fetchLocation(cities[0]);
+    fetchLocation();
     fetchWeatherData("London");
 
     //For all the selected cities from our City model, extract the city and add it to our original cities list
@@ -182,17 +204,18 @@ class _HomeState extends State<Home> {
                   ),
                   DropdownButtonHideUnderline(
                     child: DropdownButton(
-                        value: location,
+                        value: selectedCity,
                         icon: const Icon(Icons.keyboard_arrow_down),
-                        items: cities.map((String location) {
+                        items: cities.map((City city) {
                           return DropdownMenuItem(
-                              value: location, child: Text(location));
+                              value: city, child: Text(city.country));
                         }).toList(),
-                        onChanged: (String? newValue) {
+                        onChanged: (newValue) {
                           setState(() {
-                            location = newValue!;
-                            fetchLocation(location);
-                            fetchWeatherData(location);
+                            selectedCity = newValue!;
+                            // fetchLocation();
+                            fetchWeatherData(selectedCity.city);
+                            location = selectedCity.country;
                           });
                         }),
                   )
@@ -251,9 +274,14 @@ class _HomeState extends State<Home> {
                         left: 20,
                         child: imageUrl == ''
                             ? const Text('')
-                            : Image.network(
+                            : CachedNetworkImage(
+                              // placeholder: (context,val){
+                              //   return CircularProgressIndicator();
+                              // },
+                              imageUrl:
                           /*'assets/images/' +*/'http:'+ imageUrl /*+ '.png'*/,
                           width: 150,
+                          height: 150,
                         ),
                       ),
                       Positioned(
@@ -310,18 +338,18 @@ class _HomeState extends State<Home> {
                         text: 'Wind Speed',
                         value: windSpeed,
                         unit: 'km/h',
-                        imageUrl: 'assets/images/logo.png',
+                        imageUrl: 'assets/images/windspeed.png',
                       ),
                       weatherItem(
                           text: 'Humidity',
                           value: humidity,
                           unit: '',
-                          imageUrl: 'assets/images/logo.png'),
+                          imageUrl: 'assets/images/humidity.png'),
                       weatherItem(
                         text: 'Wind Speed',
                         value: maxTemp,
                         unit: 'C',
-                        imageUrl: 'assets/images/logo.png',
+                        imageUrl: 'assets/images/max-temp.png',
                       ),
                     ],
                   ),
@@ -341,7 +369,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Text(
-                      'Next 7 Days',
+                      'Next Day',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
@@ -372,7 +400,7 @@ class _HomeState extends State<Home> {
                           .substring(0, 3); //formateed date
                       return GestureDetector(
                         onTap: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(consolidatedWeatherList: consolidatedWeatherList, selectedId: index, location: location,city: selectedCity.city,)));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 20),

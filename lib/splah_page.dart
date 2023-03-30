@@ -23,6 +23,7 @@ class _SplashPageState extends State<SplashPage> {
 
   goToLogin() {
     if (GetStorage().read('isLogin')) {
+      // GetStorage().remove('isLogin');
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => MainPage()));
     } else if(GetStorage().read('profile') !=null){
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => GetStarted()));

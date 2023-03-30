@@ -115,6 +115,8 @@ class _SettingPageState extends State<SettingPage> {
                           // await FirebaseAuth.instance
                           //     .signOut()
                           //     .then((value) => Get.offAll(() => SplashPage()));
+                          GetStorage().remove('isLogin');
+                          GetStorage().remove('profile');
                         },
                         child: Text("yes".tr())),
                     cancel: ElevatedButton(

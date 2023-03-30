@@ -68,6 +68,10 @@
   "version": "Version: 1.0.0",
   "privacyPolicy": "Privacy Policy",
   "privacyPolicyDescription": "View app Privacy Policy",
-  "add": "Add"
-
+  "add": "Add",
+  "nameInput": "Name",
+  "dateInput": "Date",
+  "addressInput": "Main Address",
+  "phoneInput": "Phone Number(Optional)",
+  "detailsInput": "More Details"
 }

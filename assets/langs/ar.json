@@ -68,5 +68,10 @@
   "version": "الاصدار: 1.0.0",
   "privacyPolicy": "سياسة الخصوصية",
   "privacyPolicyDescription": "عرض سياسة الخصوصية للتطبيق",
-  "add": "إضافة"
+  "add": "إضافة",
+  "nameInput": "الاسم",
+  "dateInput": "التاريخ",
+  "addressInput": "العنوان الرئيسي",
+  "phoneInput": "رقم الهاتف(اختياري)",
+  "detailsInput": "تفاصيل أكثر"
 }

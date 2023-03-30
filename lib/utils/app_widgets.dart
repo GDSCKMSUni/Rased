@@ -4,13 +4,13 @@ import 'package:helpers/helpers.dart';
 
 class AppWidgets {
   MyDialog(
-      {required BuildContext context,
-        String? title,
-        String? subtitle,
-        Color? background,
-        Widget? confirm,
-        Widget? cancel,
-        required Widget asset}) =>
+          {required BuildContext context,
+          String? title,
+          String? subtitle,
+          Color? background,
+          Widget? confirm,
+          Widget? cancel,
+          required Widget asset}) =>
       showDialog(
           barrierDismissible: false,
           context: context,
@@ -40,10 +40,10 @@ class AppWidgets {
                           title != null ? Headline6(title) : const SizedBox(),
                           subtitle != null
                               ? BodyText1(
-                            subtitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          )
+                                  subtitle,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                )
                               : const SizedBox(),
                         ],
                       ),
@@ -62,6 +62,52 @@ class AppWidgets {
                         ],
                       ),
                     )
+                  ],
+                ),
+              ),
+            );
+          });
+  MyDialog2(
+          {required BuildContext context,
+          String? title,
+          String? subtitle,
+          Color? background,
+          required Widget body}) =>
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              // contentPadding: EdgeInsets.zero,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(borderRadius: EdgeRadius.all(16)),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: Margin.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          title != null ? Headline6(title) : const SizedBox(),
+                          subtitle != null
+                              ? BodyText1(
+                                  subtitle,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: Margin.all(16),
+                      color: background,
+                      child: Center(child: body),
+                    ),
                   ],
                 ),
               ),

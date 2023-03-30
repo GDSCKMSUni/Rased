@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -8,12 +9,14 @@ class DetailPage extends StatefulWidget {
   final List consolidatedWeatherList;
   final int selectedId;
   final String location;
+  final String city ;
 
   const DetailPage(
       {Key? key,
         required this.consolidatedWeatherList,
         required this.selectedId,
-        required this.location})
+        required this.city,
+        required this.location,})
       : super(key: key);
 
   @override
@@ -33,9 +36,9 @@ class _DetailPageState extends State<DetailPage> {
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
     int selectedIndex = widget.selectedId;
-    var weatherStateName =
-    widget.consolidatedWeatherList[selectedIndex]['weather_state_name'];
-    imageUrl = weatherStateName.replaceAll(' ', '').toLowerCase();
+    // var weatherStateName = "Ahmed";
+    // widget.consolidatedWeatherList[selectedIndex]['weather_state_name'];
+    // imageUrl = weatherStateName.replaceAll(' ', '').toLowerCase();
 
     return Scaffold(
       backgroundColor: AppThemes.primaryColor,
@@ -70,12 +73,12 @@ class _DetailPageState extends State<DetailPage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.consolidatedWeatherList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    var futureWeatherName = widget
-                        .consolidatedWeatherList[index]['weather_state_name'];
-                    var weatherURL =
-                    futureWeatherName.replaceAll(' ', '').toLowerCase();
+                    // var futureWeatherName = widget
+                    //     .consolidatedWeatherList[index]['weather_state_name'];
+                    // var weatherURL =
+                    // futureWeatherName.replaceAll(' ', '').toLowerCase();
                     var parsedDate = DateTime.parse(widget
-                        .consolidatedWeatherList[index]['applicable_date']);
+                        .consolidatedWeatherList[index]['date']);
                     var newDate =
                     DateFormat('EEEE').format(parsedDate).substring(0, 3);
 
@@ -97,11 +100,11 @@ class _DetailPageState extends State<DetailPage> {
                             )
                           ]),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.consolidatedWeatherList[index]['the_temp']
-                                .round()
+                            widget.consolidatedWeatherList[index]['avgtemp_c']
                                 .toString() +
                                 "C",
                             style: TextStyle(
@@ -112,10 +115,14 @@ class _DetailPageState extends State<DetailPage> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Image.asset(
-                            'assets/images/' + weatherURL + ".png",
-                            width: 40,
-                          ),
+                          CachedNetworkImage(
+                              // placeholder: (context,val){
+                              //   return CircularProgressIndicator();
+                              // },
+                              imageUrl:
+                          /*'assets/images/' +*/'http:'+ widget.consolidatedWeatherList[index]['day']['condition']['icon'] /*+ '.png'*/,
+                          width: 40,
+                        ),
                           Text(
                             newDate,
                             style: TextStyle(
@@ -174,21 +181,22 @@ class _DetailPageState extends State<DetailPage> {
                       child: Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          Positioned(
-                            top: -40,
-                            left: 20,
-                            child: Image.asset(
-                              'assets/images/' + imageUrl + '.png',
-                              width: 150,
-                            ),
-                          ),
+                          // Positioned(
+                          //   top: -40,
+                          //   left: 20,
+                          //   child: Image.network(
+                          //     // 'assets/images/' + imageUrl + '.png',
+                          //     // 'http:'+ imageUrl,
+                          //     width: 150,
+                          //   ),
+                          // ),
                           Positioned(
                               top: 120,
                               left: 30,
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: Text(
-                                  weatherStateName,
+                                  widget.city,
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -210,24 +218,21 @@ class _DetailPageState extends State<DetailPage> {
                                     text: 'Wind Speed',
                                     value: widget
                                         .consolidatedWeatherList[selectedIndex]
-                                    ['wind_speed']
-                                        .round(),
+                                    ['day']['maxwind_kph'],
                                     unit: 'km/h',
                                     imageUrl: 'assets/images/windspeed.png',
                                   ),
                                   weatherItem(
                                       text: 'Humidity',
                                       value: widget.consolidatedWeatherList[
-                                      selectedIndex]['humidity']
-                                          .round(),
+                                      selectedIndex]['day']['avghumidity'],
                                       unit: '',
                                       imageUrl: 'assets/images/humidity.png'),
                                   weatherItem(
                                     text: 'Max Temp',
                                     value: widget
                                         .consolidatedWeatherList[selectedIndex]
-                                    ['max_temp']
-                                        .round(),
+                                    ['day']['maxtemp_c'],
                                     unit: 'C',
                                     imageUrl: 'assets/images/max-temp.png',
                                   ),
@@ -243,8 +248,7 @@ class _DetailPageState extends State<DetailPage> {
                               children: [
                                 Text(
                                   widget.consolidatedWeatherList[selectedIndex]
-                                  ['the_temp']
-                                      .round()
+                                  ['day']['avgtemp_c']
                                       .toString(),
                                   style: TextStyle(
                                     fontSize: 80,
@@ -281,15 +285,15 @@ class _DetailPageState extends State<DetailPage> {
                             widget.consolidatedWeatherList.length,
                             itemBuilder:
                                 (BuildContext context, int index) {
-                              var futureWeatherName =
-                              widget.consolidatedWeatherList[index]
-                              ['weather_state_name'];
-                              var futureImageURL = futureWeatherName
-                                  .replaceAll(' ', '')
-                                  .toLowerCase();
+                              // var futureWeatherName =
+                              // widget.consolidatedWeatherList[index]
+                              // ['weather_state_name'];
+                              // var futureImageURL = futureWeatherName
+                              //     .replaceAll(' ', '')
+                              //     .toLowerCase();
                               var myDate = DateTime.parse(
                                   widget.consolidatedWeatherList[index]
-                                  ['applicable_date']);
+                                  ['date']);
                               var currentDate =
                               DateFormat('d MMMM, EEEE')
                                   .format(myDate);
@@ -335,8 +339,7 @@ class _DetailPageState extends State<DetailPage> {
                                           Text(
                                             widget
                                                 .consolidatedWeatherList[
-                                            index]['max_temp']
-                                                .round()
+                                            index]['day']['maxtemp_c']
                                                 .toString(),
                                             style: const TextStyle(
                                               color: Colors.grey,
@@ -355,8 +358,7 @@ class _DetailPageState extends State<DetailPage> {
                                           Text(
                                             widget
                                                 .consolidatedWeatherList[
-                                            index]['min_temp']
-                                                .round()
+                                            index]['day']['mintemp_c']
                                                 .toString(),
                                             style: const TextStyle(
                                               color: Colors.grey,
@@ -365,21 +367,21 @@ class _DetailPageState extends State<DetailPage> {
                                           ),
                                         ],
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/' +
-                                                futureImageURL +
-                                                '.png',
-                                            width: 30,
-                                          ),
-                                          Text(widget.consolidatedWeatherList[
-                                          index]
-                                          ['weather_state_name']),
-                                        ],
-                                      )
+                                      // Column(
+                                      //   mainAxisAlignment:
+                                      //   MainAxisAlignment.center,
+                                      //   children: [
+                                      //     Image.asset(
+                                      //       'assets/images/' +
+                                      //           futureImageURL +
+                                      //           '.png',
+                                      //       width: 30,
+                                      //     ),
+                                      //     Text(widget.consolidatedWeatherList[
+                                      //     index]
+                                      //     ['weather_state_name']),
+                                      //   ],
+                                      // )
                                     ],
                                   ),
                                 ),
