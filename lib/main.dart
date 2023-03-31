@@ -1,6 +1,6 @@
 
-
 // import 'package:firebase_core/firebase_core.dart';
+import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/splah_page.dart';
 
 import '../utils/app_themes.dart';
@@ -87,6 +87,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
   late int _selectedIndex = widget.selectedIndex ?? 0;
 
   static List pages = [

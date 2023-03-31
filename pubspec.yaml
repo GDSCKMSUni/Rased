@@ -33,6 +33,7 @@ dependencies:
   url_launcher:
   path:
   image_picker: 
+  permission_handler: ^7.1.0
 
 dev_dependencies:
   flutter_test:

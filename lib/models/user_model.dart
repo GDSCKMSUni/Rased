@@ -6,6 +6,6 @@ class User {
 
   const User({
     required this.name,
-    required this.imageUrl,
+    this.imageUrl = "",
   });
 }

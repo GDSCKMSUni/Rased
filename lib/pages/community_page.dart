@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:rasedapp_ye/functions.dart';
+import 'package:rasedapp_ye/models/user_model.dart';
+import 'package:rasedapp_ye/pages/get_started.dart';
+import 'package:rasedapp_ye/utils/urls.dart';
 
-import '../data/data.dart';
 import '../models/post_model.dart';
 import '../utils/app_themes.dart';
 import '../widgets/circle_button.dart';
@@ -12,8 +17,8 @@ import '../widgets/rooms.dart';
 import '../widgets/stories.dart';
 
 class CommunityPage extends StatelessWidget {
-  final TrackingScrollController _trackingScrollController =
-      TrackingScrollController();
+  // final TrackingScrollController _trackingScrollController =
+  //     TrackingScrollController();
 
   // @override
   // void dispose() {
@@ -37,24 +42,52 @@ class CommunityPage extends StatelessWidget {
         //         color: AppThemes.lightGreyColor, fontWeight: FontWeight.bold),
         //   ),
         // ),
-        body: _HomeScreenMobile(),
+        body: HomeScreenMobile(),
       ),
     );
   }
 }
 
-class _HomeScreenMobile extends StatelessWidget {
-  final TrackingScrollController? scrollController;
+class HomeScreenMobile extends StatefulWidget {
+  const HomeScreenMobile({super.key});
 
-  const _HomeScreenMobile({
-    Key? key,
-    this.scrollController,
-  }) : super(key: key);
+  @override
+  State<HomeScreenMobile> createState() => _HomeScreenMobileState();
+}
+
+class _HomeScreenMobileState extends State<HomeScreenMobile> {
+  List<Post> posts = [];
+  // final TrackingScrollController? scrollController;
+
+  fetchAllPosts()async{
+    var response = await postRequest(URLs.getPosts,{
+      'id':GetStorage().read('profile')['user_id'].toString()
+    });
+    if(response !=null){
+      for (var i = 0; i < response['data'].length; i++) {
+        posts.add(Post(comments: 20,likes: 20,
+        caption: response['data'][i]['details'],
+        imageUrl: URLs.imageFolder + response['data'][i]['image_url'],
+        shares: 20,
+        timeAgo: response['data'][i]['date'],
+        user: User(name:response['data'][i]['user_name']),
+        userIsLike: response['data'][i]['is_like'] == 0?false:true),
+        );
+      }
+    }
+    setState(() {});
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchAllPosts();
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      controller: scrollController,
+      // controller: scrollController,
       slivers: [
         SliverAppBar(
           brightness: Brightness.light,
@@ -84,7 +117,7 @@ class _HomeScreenMobile extends StatelessWidget {
           // ],
         ),
         SliverToBoxAdapter(
-          child: CreatePostContainer(currentUser: currentUser),
+          child: CreatePostContainer(/*currentUser: currentUser*/),
         ),
         // SliverPadding(
         //   padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 5.0),
@@ -101,7 +134,19 @@ class _HomeScreenMobile extends StatelessWidget {
         //     ),
         //   ),
         // ),
-        SliverList(
+        
+        posts.length == 0 ? 
+        SliverToBoxAdapter(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height / 4,),
+                CircularProgressIndicator(),
+              ],
+            ),
+          ),
+        ):
+         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final Post post = posts[index];

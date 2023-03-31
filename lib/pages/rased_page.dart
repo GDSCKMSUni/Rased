@@ -7,19 +7,36 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/utils/app_themes.dart';
 import 'package:path/path.dart';
+import 'package:rasedapp_ye/utils/app_widgets.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
+import 'package:rasedapp_ye/widgets/circle_button.dart';
 import 'dart:convert';
 
 import '../widgets/textfield_widget.dart';
 
-class RasedPage extends StatelessWidget {
+class RasedPage extends StatefulWidget {
+  const RasedPage({super.key});
+
+  @override
+  State<RasedPage> createState() => _RasedPageState();
+}
+
+class _RasedPageState extends State<RasedPage> {
+  late GlobalKey<FormState> formKey;
   TextEditingController nameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
-  RasedPage({Key? key}) : super(key: key);
   File? file;
+
+  @override
+  void initState() {
+    super.initState();
+    requestPeremision();
+    formKey = GlobalKey<FormState>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,50 +49,116 @@ class RasedPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ListView(
+      body: Form(
+        key: formKey,
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            textFieldWidget(
+              hint: 'nameInput'.tr(),
+              controller: nameController,
+            ),
+            // textFieldWidget(hint: "dateInput".tr(),controller: dateController),
+            textFieldWidget(
+                hint: "addressInput".tr(), controller: addressController),
+            textFieldWidget(
+              hint: "phoneInput".tr(),
+              controller: phoneController,
+              isOptional: true,
+            ),
+            textFieldWidget(
+              hint: "detailsInput".tr(),
+              maxlines: 5,
+              controller: detailsController,
+            ),
+            (file == null)
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleButton(
+                          iconSize: 30,
+                          onPressed: () async {
+                            XFile? xFile = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
+                            file = File(xFile!.path);
 
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          textFieldWidget(hint: 'nameInput'.tr(),controller: nameController,),
-          textFieldWidget(hint: "dateInput".tr(),controller: dateController),
-          textFieldWidget(hint: "addressInput".tr(),controller: addressController),
-          textFieldWidget(hint: "phoneInput".tr(),controller: phoneController),
-          textFieldWidget(
-            hint: "detailsInput".tr(),
-            maxlines: 5,controller: detailsController,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () async{
-                 XFile? xFile = await ImagePicker().pickImage(source:ImageSource.gallery);
-                file = File(xFile!.path);
-                Navigator.pop(context);
-                if(file == null){
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select the image")));
-                }
+                            if (file == null) {
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Please select the image")));
+                            }
 
-                var response = await postRequestWithFile(URLs.sendPost,
-                {
-                    "title": "Tilte1",
-                    "content": "",
-                    "id":GetStorage().read('profile')['user_id']
-                },file!);
-              }, icon: Icon(Icons.storage_outlined,size: 30,)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.camera_outlined,size: 30)),
-              // IconButton(
-              //     onPressed: () {}, icon: Icon(Icons.video_call_rounded)),
-              // IconButton(onPressed: () {}, icon: Icon(Icons.camera)),
-            ],
-          )
-        ],
+                            setState(() {});
+                          },
+                          icon: Icons.storage_outlined),
+                      CircleButton(
+                          iconSize: 30,
+                          onPressed: () async {
+                            XFile? xFile = await ImagePicker()
+                                .pickImage(source: ImageSource.camera);
+                            file = File(xFile!.path);
+                            // Navigator.pop(context);
+                            if (file == null) {
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Please select the image")));
+                            }
+                            setState(() {});
+                          },
+                          icon: Icons.camera_outlined),
+                    ],
+                  )
+                : CircleButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      file = null;
+                      setState(() {});
+                    },
+                    icon: Icons.cancel),
+          ],
+        ),
       ),
-      floatingActionButton: 
-      FloatingActionButton(onPressed: (){},
-      backgroundColor: AppThemes.primaryColor,
-      
-      child: Icon(Icons.upload)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            if (formKey.currentState!.validate()) {
+              if (file != null) {
+                var response = await postRequestWithFile(
+                    URLs.sendPost,
+                    {
+                      'id': GetStorage().read('profile')['user_id'].toString(),
+                      'name': nameController.text,
+                      'address': addressController.text,
+                      'date': DateTime.now().toString(),
+                      'phone': phoneController.text,
+                      'details': detailsController.text,
+                    },
+                    file!);
+                nameController.text = "";
+                dateController.text = "";
+                addressController.text = "";
+                phoneController.text = "";
+                detailsController.text = "";
+                file = null;
+                setState(() {});
+                AppWidgets().MyDialog2(
+                  context: context,
+                  title: "Post Send Succesful",
+                 body: Icon(Icons.done_outline,size: 70,color: AppThemes.primaryColor,));
+              } else {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Please select the image")));
+              }
+            }
+          },
+          backgroundColor: AppThemes.primaryColor,
+          child: Icon(Icons.upload)),
     );
   }
 }

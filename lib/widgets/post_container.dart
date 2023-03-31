@@ -1,17 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../models/post_model.dart';
 import 'profile_avatar.dart';
 
-class PostContainer extends StatelessWidget {
+class PostContainer extends StatefulWidget {
   final Post post;
-
   const PostContainer({
     Key? key,
     required this.post,
   }) : super(key: key);
 
+  @override
+  State<PostContainer> createState() => _PostContainerState();
+}
+
+class _PostContainerState extends State<PostContainer> {
+
+
+  onLikeTap(){
+    widget.post.userIsLike = !widget.post.userIsLike;
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,24 +42,24 @@ class PostContainer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _PostHeader(post: post),
+                  _PostHeader(post: widget.post),
                   const SizedBox(height: 4.0),
-                  Text(post.caption),
-                  post.imageUrl != null
+                  Text(widget.post.caption),
+                  widget.post.imageUrl != null
                       ? const SizedBox.shrink()
                       : const SizedBox(height: 6.0),
                 ],
               ),
             ),
-            post.imageUrl != null
+            widget.post.imageUrl != null
                 ? Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: CachedNetworkImage(imageUrl: post.imageUrl),
+              child: CachedNetworkImage(imageUrl: widget.post.imageUrl),
             )
                 : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: _PostStats(post: post),
+              child: _PostStats(post: widget.post,onLikeTab: onLikeTap),
             ),
           ],
         ),
@@ -69,7 +80,8 @@ class _PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: post.user.imageUrl),
+        ProfileAvatar(
+          imageUrl: post.user.imageUrl),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
@@ -111,10 +123,11 @@ class _PostHeader extends StatelessWidget {
 
 class _PostStats extends StatelessWidget {
   final Post post;
-
+  final void Function()? onLikeTab;
   const _PostStats({
     Key? key,
     required this.post,
+    required this.onLikeTab,
   }) : super(key: key);
 
   @override
@@ -163,29 +176,20 @@ class _PostStats extends StatelessWidget {
         Row(
           children: [
             _PostButton(
-              icon: Icon(
-                Icons.thumb_up_outlined,
-                color: Colors.grey[600],
-                size: 20.0,
-              ),
+              icon: Icons.thumb_up_outlined,
+              isLiked: post.userIsLike,
               label: 'Like',
-              onTap: () => print('Like'),
+              onTap: onLikeTab,
             ),
             _PostButton(
-              icon: Icon(
-                Icons.comment_outlined,
-                color: Colors.grey[600],
-                size: 20.0,
-              ),
+              icon: Icons.comment_outlined,
+              isLiked: post.userIsLike,
               label: 'Comment',
               onTap: () => print('Comment'),
             ),
             _PostButton(
-              icon: Icon(
-                Icons.share_outlined,
-                color: Colors.grey[600],
-                size: 25.0,
-              ),
+              icon:Icons.share_outlined,
+              isLiked: post.userIsLike,
               label: 'Share',
               onTap: () => print('Share'),
             )
@@ -197,7 +201,8 @@ class _PostStats extends StatelessWidget {
 }
 
 class _PostButton extends StatelessWidget {
-  final Icon icon;
+  final bool isLiked;
+  final IconData icon;
   final String label;
   final void Function()? onTap;
 
@@ -206,6 +211,7 @@ class _PostButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
+    required this.isLiked,
   }) : super(key: key);
 
   @override
@@ -221,9 +227,13 @@ class _PostButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Icon(
                 icon,
+                color:isLiked&&icon==Icons.thumb_up_outlined?Colors.blueAccent: Colors.grey[600],
+                size: 25.0,
+              ),
                 const SizedBox(width: 4.0),
-                Text(label),
+                Text(label,style:isLiked&&icon==Icons.thumb_up_outlined? TextStyle(color:Colors.blueAccent ):TextStyle(),),
               ],
             ),
           ),

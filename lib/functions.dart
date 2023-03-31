@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 getRequest(String url) async{
   try{
     var response = await http.get(Uri.parse(url));
@@ -11,9 +12,11 @@ getRequest(String url) async{
       return responsebody;
     }else{
       print('Error ${response.statusCode}');
+      return null;
     }
   }catch(e){
     print('Error catch $e');
+      return null;
   }
 }
 postRequest(String url,Map data) async{
@@ -25,9 +28,11 @@ postRequest(String url,Map data) async{
       return responsebody;
     }else{
       print('Error ${response.statusCode}');
+      return null;
     }
   }catch(e){
     print('Error catch $e');
+      return null;
   }
 }
 Future postRequestWithoutBody(String url) async{
@@ -46,7 +51,22 @@ Future postRequestWithoutBody(String url) async{
       return null;
   }
 }
+requestPeremision()async{
+  var status = await Permission.camera.status;
+  if(!status.isGranted){
+    await Permission.camera.request();
+  }
 
+  var status1 = await Permission.storage.status;
+  if(!status1.isGranted){
+    await Permission.storage.request();
+  }
+
+    var status3 = await Permission.manageExternalStorage.status;
+  if(!status1.isGranted){
+    await Permission.manageExternalStorage.request();
+  }
+}
  postRequestWithFile(String url,Map data,File file) async{
   var request = http.MultipartRequest("POST",Uri.parse(url));
 
@@ -54,7 +74,7 @@ Future postRequestWithoutBody(String url) async{
   var length =await file.length();
   var stream = http.ByteStream(file.openRead());
 
-  var multiPartFile = http.MultipartFile("file",stream,length,
+  var multiPartFile = http.MultipartFile("image",stream,length,
   filename:basename(file.path));
   request.files.add(multiPartFile);
 
@@ -65,6 +85,7 @@ Future postRequestWithoutBody(String url) async{
 
   var response = await http.Response.fromStream(myRequest);
   if(myRequest.statusCode == 200){
+    print(response.body);
     return jsonDecode(response.body);
   }
   else {

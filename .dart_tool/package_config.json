@@ -344,6 +344,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "permission_handler",
+      "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler-7.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "permission_handler_platform_interface",
+      "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/permission_handler_platform_interface-3.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "pinput",
       "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/pinput-2.2.31",
       "packageUri": "lib/",
@@ -584,7 +596,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-03-30T20:35:56.862418Z",
+  "generated": "2023-03-30T21:01:50.936087Z",
   "generator": "pub",
   "generatorVersion": "2.19.5"
 }

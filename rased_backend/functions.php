@@ -34,29 +34,6 @@ function imageUpload($imageRequest){
     }
 }
 
-
-function deleteFile($dir,$imageName){
-    if(file_exists($dir.'/'.$imageName)){
-        unlink($dir.'/'.$imageName);
-    }
-}
-function split($items,$seprator){
-    $item = '';
-    $result = array();
-    $index = 0;
-    for($i = 0;$i < strlen($items);$i++){
-        if($items[$i] == $seprator){
-            $result["$index"] = $item;
-            $item = '';
-            $index ++;
-            continue;      
-        }
-        $item .= $items[$i];
-    }
-    $result[$index] = $item;
-    return $result;
-}
-
         ?>
 
     

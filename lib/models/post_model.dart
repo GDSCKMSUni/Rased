@@ -10,8 +10,9 @@ class Post {
   final int likes;
   final int comments;
   final int shares;
+  bool userIsLike;
 
-  const Post({
+  Post({
     required this.user,
     required this.caption,
     required this.timeAgo,
@@ -19,5 +20,6 @@ class Post {
     required this.likes,
     required this.comments,
     required this.shares,
+    required this.userIsLike,
   });
 }
