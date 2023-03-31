@@ -104,7 +104,7 @@ class _DetailPageState extends State<DetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.consolidatedWeatherList[index]['avgtemp_c']
+                            widget.consolidatedWeatherList[index]['day']['avgtemp_c']
                                 .toString() +
                                 "C",
                             style: TextStyle(
@@ -115,6 +115,12 @@ class _DetailPageState extends State<DetailPage> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
+                          // Image.network(
+                          //   'http:'+ widget.consolidatedWeatherList[index]['day']['condition']['icon'] ,
+                          //   loadingBuilder: (context,widget,image){
+                          //     return CircularProgressIndicator();
+                          //   },
+                          // ),
                           CachedNetworkImage(
                               // placeholder: (context,val){
                               //   return CircularProgressIndicator();

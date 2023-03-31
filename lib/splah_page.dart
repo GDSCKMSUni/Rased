@@ -22,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
   // FirebaseAuth auth = FirebaseAuth.instance;
 
   goToLogin() {
-    if (GetStorage().read('isLogin')) {
+    if (GetStorage().read('isLogin')||GetStorage().read('isVisitor')) {
       // GetStorage().remove('isLogin');
       Future.delayed(Duration(seconds: 5), () => Get.offAll(() => MainPage()));
     } else if(GetStorage().read('profile') !=null){

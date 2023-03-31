@@ -76,9 +76,15 @@ class _HomeState extends State<Home> {
     // setState(() {
     //   woeid = result['woeid'];
     // });
-    var response = await postRequest(URLs.getCity, {
-      'id' : GetStorage().read('profile')['user_id'].toString()
+    var response;
+    if(GetStorage().read('profile') != null){
+      response = await postRequest(URLs.getCity, {
+        'id' : GetStorage().read('profile')['user_id'].toString()
     });
+    }else{
+      response = await postRequestWithoutBody(URLs.getCity);
+    }
+
     if(response != null){
     for(int i=0;i<response['data'].length;i++){
       cities.add(City(cityId: response['data'][i]['user_id'],
@@ -97,16 +103,14 @@ class _HomeState extends State<Home> {
     // var result = json.decode(weatherResult.body);
     // var consolidatedWeather = result['consolidated_weather'];
       consolidatedWeatherList.clear();
-      var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
-      var consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
+      // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
+      var consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&days=7");
         if(consolidatedWeather !=null){
-          consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
+          for(int i=0;i<7;i++)
+            {
+              consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][i]); 
+            }
         } 
-      date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 1)));
-      consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&dt="+ date.toString());
-        if(consolidatedWeather !=null){
-          consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][0]); 
-        }
         
  
       // await Future.forEach([1,2,3,4,5,6,7], (element) async{
@@ -229,7 +233,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(20),
           child: NotificationListener<OverscrollIndicatorNotification>(
                       onNotification: (overScroll) {
-                        overScroll.disallowGlow();
+                        overScroll.disallowIndicator();
                         return false;
                       },
             child: ListView(
@@ -280,8 +284,8 @@ class _HomeState extends State<Home> {
                               // },
                               imageUrl:
                           /*'assets/images/' +*/'http:'+ imageUrl /*+ '.png'*/,
-                          width: 150,
-                          height: 150,
+                          // width: 150,
+                          // height: 150,
                         ),
                       ),
                       Positioned(
@@ -369,7 +373,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Text(
-                      'Next Day',
+                      'Next 7 Days',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,

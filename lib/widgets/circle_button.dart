@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rasedapp_ye/utils/app_themes.dart';
 
 class CircleButton extends StatelessWidget {
   final IconData icon;
@@ -17,13 +18,13 @@ class CircleButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(6.0),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: AppThemes.primaryColor,
         shape: BoxShape.circle,
       ),
       child: IconButton(
         icon: Icon(icon),
         iconSize: iconSize,
-        color: Colors.black,
+        color: Colors.white,
         onPressed: onPressed,
       ),
     );

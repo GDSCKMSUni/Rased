@@ -164,6 +164,12 @@
       "languageVersion": "2.16"
     },
     {
+      "name": "grouped_list",
+      "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/grouped_list-5.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "helpers",
       "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/helpers-1.2.0",
       "packageUri": "lib/",
@@ -596,7 +602,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-03-30T21:01:50.936087Z",
+  "generated": "2023-03-31T12:20:21.322834Z",
   "generator": "pub",
   "generatorVersion": "2.19.5"
 }

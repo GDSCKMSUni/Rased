@@ -128,6 +128,7 @@ class _RasedPageState extends State<RasedPage> {
           onPressed: () async {
             if (formKey.currentState!.validate()) {
               if (file != null) {
+                if(GetStorage().read('profile')!=null){
                 var response = await postRequestWithFile(
                     URLs.sendPost,
                     {
@@ -139,7 +140,7 @@ class _RasedPageState extends State<RasedPage> {
                       'details': detailsController.text,
                     },
                     file!);
-                nameController.text = "";
+                                    nameController.text = "";
                 dateController.text = "";
                 addressController.text = "";
                 phoneController.text = "";
@@ -150,6 +151,11 @@ class _RasedPageState extends State<RasedPage> {
                   context: context,
                   title: "Post Send Succesful",
                  body: Icon(Icons.done_outline,size: 70,color: AppThemes.primaryColor,));
+                }else{
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text("Please Login to Rased App")));
+                }
               } else {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(

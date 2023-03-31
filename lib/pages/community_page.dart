@@ -60,22 +60,57 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   // final TrackingScrollController? scrollController;
 
   fetchAllPosts()async{
-    var response = await postRequest(URLs.getPosts,{
+    var response;
+    if(GetStorage().read('profile')!=null){
+         response = await postRequest(URLs.getPosts,{
       'id':GetStorage().read('profile')['user_id'].toString()
     });
+    }
+    else{
+         response = await postRequestWithoutBody(URLs.getPosts);
+    }
+
     if(response !=null){
       for (var i = 0; i < response['data'].length; i++) {
-        posts.add(Post(comments: 20,likes: 20,
-        caption: response['data'][i]['details'],
-        imageUrl: URLs.imageFolder + response['data'][i]['image_url'],
-        shares: 20,
-        timeAgo: response['data'][i]['date'],
-        user: User(name:response['data'][i]['user_name']),
-        userIsLike: response['data'][i]['is_like'] == 0?false:true),
-        );
+        posts.add(
+          Post(
+            comments: response['data'][i]['comments'],
+            likes: response['data'][i]['likes'],
+            postId: response['data'][i]['post_id'],
+            caption: response['data'][i]['details'],
+            imageUrl: URLs.imageFolder + response['data'][i]['image_url'],
+            shares: 20,
+            timeAgo: response['data'][i]['date'],
+            user: User(name:response['data'][i]['user_name'],id: response['data'][i]['user_id']),
+            userIsLike: response['data'][i]['is_like'] == 0?false:true,
+            postIndex: i
+            ),
+          );
       }
     }
     setState(() {});
+  }
+
+  changeLikesCount(i,isLike)async{
+    if(isLike){
+      posts[i].likes++;
+      var response = await postRequest(URLs.like, {
+      'user_id':GetStorage().read('profile')['user_id'].toString(),
+      'post_id':posts[i].postId.toString(),
+      'type' : 'insert'
+    });
+    }else{
+      posts[i].likes--;
+      var response = await postRequest(URLs.like, {
+      'user_id':GetStorage().read('profile')['user_id'].toString(),
+      'post_id':posts[i].postId.toString(),
+      'type' : 'delete'
+    });
+    }
+  }
+    changeCommentsCount(i){
+      posts[i].comments++;
+      setState(() {});
   }
   @override
   void initState() {
@@ -150,7 +185,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final Post post = posts[index];
-              return PostContainer(post: post);
+              return PostContainer(post: post,onLikePress:changeLikesCount,onCommentSend:changeCommentsCount);
             },
             childCount: posts.length,
           ),

@@ -1,5 +1,13 @@
 
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:rasedapp_ye/login/login_page.dart';
+import 'package:rasedapp_ye/utils/urls.dart';
+import 'package:rasedapp_ye/widgets/circle_button.dart';
+import 'package:rasedapp_ye/widgets/profile_avatar.dart';
 import 'package:rasedapp_ye/widgets/setting_item.dart';
+import 'package:rasedapp_ye/widgets/textfield_widget.dart';
 
 import '../splah_page.dart';
 import '../utils/app_themes.dart';
@@ -22,6 +30,134 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  TextEditingController? nameController;
+  TextEditingController? phoneController;
+  File? file;
+  GlobalKey? formKey;
+  bool? isLogin;
+
+  @override
+  void initState() {
+    super.initState();
+
+    phoneController = TextEditingController();
+    formKey = GlobalKey<FormState>();
+    isLogin = GetStorage().read('profile') != null;
+        if(isLogin!)
+    nameController = TextEditingController(text:GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'].toString());
+    else  
+    nameController = TextEditingController(text:"");
+  }
+
+  changeProfile(){
+    if(isLogin!)
+    AppWidgets().MyDialog2(
+                  context: context,
+                  title: "account".tr(),
+                  body: SingleChildScrollView(
+                    child: Form(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'nameInput'.tr(),
+                            style: Theme.of(context).textTheme.headline6,),
+                          textFieldWidget(
+                            hint: "nameInput".tr(),
+                            controller: nameController!),
+                          SizedBox(height: 20,),
+                                                    Text(
+                            'image'.tr(),
+                            style: Theme.of(context).textTheme.headline6,),
+                          StatefulBuilder(builder: (context,setState){
+                            return Column(
+                              children: [
+                                file == null?
+                                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleButton(
+                          iconSize: 30,
+                          onPressed: () async {
+                            XFile? xFile = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
+                            file = File(xFile!.path);
+
+                            if (file == null) {
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Please select the image")));
+                            }
+
+                            setState(() {});
+                          },
+                          icon: Icons.storage_outlined),
+                      CircleButton(
+                          iconSize: 30,
+                          onPressed: () async {
+                            XFile? xFile = await ImagePicker()
+                                .pickImage(source: ImageSource.camera);
+                            file = File(xFile!.path);
+                            // Navigator.pop(context);
+                            if (file == null) {
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("Please select the image")));
+                            }
+                            setState(() {});
+                          },
+                          icon: Icons.camera_outlined),
+                    ],
+                  )
+                : CircleButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      file = null;
+                      setState(() {});
+                    },
+                    icon: Icons.cancel),
+                              ],
+                            );
+                          }),
+                          SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: (){},
+                              icon: Icon(Icons.save_outlined,color: Colors.white,),
+                               label: Text(
+                                'save'.tr(),
+                                style: Theme.of(context).textTheme.headline6,
+                              )),
+                            SizedBox(width: 20,),                    
+                            ElevatedButton.icon(
+                              onPressed: () => Navigator.pop(context),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red
+                              ),
+                              icon: Icon(Icons.cancel_outlined,color: Colors.white,),
+                               label: Text(
+                                'cancel'.tr(),
+                                style: Theme.of(context).textTheme.headline6,
+                              )),
+                          ],
+                        )
+                        ],
+                      ),
+                    ),
+                  )
+                );
+                else{
+                   Get.offAll(() => LoginPage());
+                }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +177,19 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ),
           ListTile(
-            title: Text(
-              "phone".tr(),
+            // leading: ProfileAvatar(imageUrl: URLs.imageFolder + (GetStorage().read('profile')['image_url']??"")),
+            title: isLogin! ? Headline5(
+              "",// "${GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'].toString()}",//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
+              textAlign: TextAlign.center,
+            ):Headline5(
+              'login'.tr(),//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
               textAlign: TextAlign.center,
             ),
-            subtitle: Headline5(
-              "A",//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
+            subtitle: isLogin! ? Text(
+              GetStorage().read('profile')['phone'],
               textAlign: TextAlign.center,
-            ),
+            ):SizedBox.shrink(),
+            onTap: changeProfile,
           ),
           const Divider(),
           ListTile(
@@ -91,7 +232,13 @@ class _SettingPageState extends State<SettingPage> {
                   });
                 }
               }),
-          profileItem(
+            isLogin! ? profileItem(
+              icon: Icons.manage_accounts_outlined,
+              title: "account".tr(),
+              subtitle: "",
+              iconBackground: Colors.blueAccent,
+              onTap: changeProfile) : SizedBox.shrink(),
+          isLogin! ?profileItem(
               icon: Ionicons.log_out_outline,
               title: "logout".tr(),
               subtitle: "logoutDescription".tr(),
@@ -119,6 +266,7 @@ class _SettingPageState extends State<SettingPage> {
                           //     .then((value) => Get.offAll(() => SplashPage()));
                           GetStorage().remove('isLogin');
                           GetStorage().remove('profile');
+                          Get.offAll(() => SplashPage());
                         },
                         child: Text("yes".tr())),
                     cancel: ElevatedButton(
@@ -129,7 +277,13 @@ class _SettingPageState extends State<SettingPage> {
                             backgroundColor:
                             MaterialStateProperty.all(Color(0xffDF2E2E))),
                         child: Text("no".tr())));
-              }),
+              }):SizedBox.shrink(),
+              !isLogin! ? profileItem(
+              icon: Icons.login_outlined,
+              title: "login".tr(),
+              subtitle: "",
+              iconBackground: Colors.teal,
+              onTap: changeProfile) : SizedBox.shrink(),
           ListTile(
             title: Headline6(
               "aboutApp".tr(),

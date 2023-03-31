@@ -1,15 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:rasedapp_ye/pages/comments_bottom_sheet.dart';
 
 import '../models/post_model.dart';
 import 'profile_avatar.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
+  final Function(int,bool) onLikePress;
+  final Function(int) onCommentSend;
   const PostContainer({
     Key? key,
     required this.post,
+    required this.onLikePress,
+    required this.onCommentSend,
   }) : super(key: key);
 
   @override
@@ -19,9 +24,23 @@ class PostContainer extends StatefulWidget {
 class _PostContainerState extends State<PostContainer> {
 
 
-  onLikeTap(){
+  onLikeTap()async{
+    if(GetStorage().read('profile') != null){
     widget.post.userIsLike = !widget.post.userIsLike;
-    setState(() {});
+      await widget.onLikePress(widget.post.postIndex,widget.post.userIsLike);
+      setState(() {});
+    }else{
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please Login to Rased App")));
+    }
+  }
+  openCommentBottomSheet(){
+    showModalBottomSheet(
+      context: context, builder: (context) => CommentsBottomSheet(onCommentSend:widget.onCommentSend,post: widget.post,),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -59,7 +78,7 @@ class _PostContainerState extends State<PostContainer> {
                 : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: _PostStats(post: widget.post,onLikeTab: onLikeTap),
+              child: _PostStats(post: widget.post,onLikeTab: onLikeTap,onCommentTab: openCommentBottomSheet,),
             ),
           ],
         ),
@@ -124,10 +143,12 @@ class _PostHeader extends StatelessWidget {
 class _PostStats extends StatelessWidget {
   final Post post;
   final void Function()? onLikeTab;
+  final void Function()? onCommentTab;
   const _PostStats({
     Key? key,
     required this.post,
     required this.onLikeTab,
+    required this.onCommentTab,
   }) : super(key: key);
 
   @override
@@ -185,7 +206,7 @@ class _PostStats extends StatelessWidget {
               icon: Icons.comment_outlined,
               isLiked: post.userIsLike,
               label: 'Comment',
-              onTap: () => print('Comment'),
+              onTap: onCommentTab,
             ),
             _PostButton(
               icon:Icons.share_outlined,

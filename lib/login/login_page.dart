@@ -1,3 +1,6 @@
+import 'package:get_storage/get_storage.dart';
+import 'package:rasedapp_ye/main.dart';
+
 import '../utils/app_themes.dart';
 import '../login/pincode_page.dart';
 import 'package:helpers/helpers.dart';
@@ -94,6 +97,22 @@ class _LoginPageState extends State<LoginPage> {
                 title: Center(
                   child: Headline6(
                     "Vertifiy Number",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20,),
+              ListTile(
+                onTap:  () {
+                  GetStorage().write('isVisitor', true);
+                  Get.to(() => MainPage());
+                },
+                tileColor: context.color.primary,
+                shape: RoundedRectangleBorder(borderRadius: EdgeRadius.all(10)),
+                title: Center(
+                  child: Headline6(
+                    "Registration as a Visitor",
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),

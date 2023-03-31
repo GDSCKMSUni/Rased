@@ -67,11 +67,17 @@
   "companyName": "Rased",
   "version": "Version: 1.0.0",
   "privacyPolicy": "Privacy Policy",
-  "privacyPolicyDescription": "View app Privacy Policy",
+  "privacyPolicyDescription": "View App Privacy Policy",
   "add": "Add",
   "nameInput": "Name",
   "dateInput": "Date",
   "addressInput": "Main Address",
   "phoneInput": "Phone Number(Optional)",
-  "detailsInput": "More Details"
+  "detailsInput": "More Details",
+  "enterComment" :"Enter Comment",
+  "account" :"Account",
+  "save":"Save",
+  "cancel" : "Cancel",
+  "image":"Profile Image",
+  "login":"Login"
 }

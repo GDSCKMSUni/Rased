@@ -30,6 +30,7 @@ void main() async {
   await GetStorage.init();
   GetStorage().writeIfNull('darkMode', false);
   GetStorage().writeIfNull('isLogin', false);
+  GetStorage().writeIfNull('isVisitor', false);
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   await translator.init(
     localeType: LocalizationDefaultType.device,

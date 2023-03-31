@@ -73,5 +73,11 @@
   "dateInput": "التاريخ",
   "addressInput": "العنوان الرئيسي",
   "phoneInput": "رقم الهاتف(اختياري)",
-  "detailsInput": "تفاصيل أكثر"
+  "detailsInput": "تفاصيل أكثر",
+  "enterComment" :"أكتب رأيك ...",
+  "account" :"حسابي",
+  "save":"حفظ",
+  "cancel":"إلغاء",
+  "image":"الصورة الشخصية",
+  "login":"تسجيل الدخول"
 }
