@@ -296,6 +296,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "mime",
+      "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
       "name": "octo_image",
       "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/octo_image-1.0.2",
       "packageUri": "lib/",
@@ -394,6 +400,12 @@
     {
       "name": "rxdart",
       "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "share",
+      "rootUri": "file:///C:/Users/Ahmed/AppData/Local/Pub/Cache/hosted/pub.dev/share-2.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -602,7 +614,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-03-31T12:20:21.322834Z",
+  "generated": "2023-03-31T19:42:40.157789Z",
   "generator": "pub",
   "generatorVersion": "2.19.5"
 }

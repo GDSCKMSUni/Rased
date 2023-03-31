@@ -87,8 +87,10 @@ class _HomeState extends State<Home> {
 
     if(response != null){
     for(int i=0;i<response['data'].length;i++){
-      cities.add(City(cityId: response['data'][i]['user_id'],
-        city: response['data'][i]['city_name'], country: response['data'][i]['country']));
+      cities.add(City(
+        cityId: response['data'][i]['city_id'],
+        city: response['data'][i]['city_name'],
+        country: response['data'][i]['country']));
     }
     selectedCity = cities[0];
     location = cities[0].country;

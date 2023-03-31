@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rasedapp_ye/pages/comments_bottom_sheet.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/post_model.dart';
 import 'profile_avatar.dart';
@@ -185,12 +187,12 @@ class _PostStats extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8.0),
-            Text(
-              '${post.shares} Shares',
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            )
+            // Text(
+            //   '${post.shares} Shares',
+            //   style: TextStyle(
+            //     color: Colors.grey[600],
+            //   ),
+            // )
           ],
         ),
         const Divider(),
@@ -212,7 +214,9 @@ class _PostStats extends StatelessWidget {
               icon:Icons.share_outlined,
               isLiked: post.userIsLike,
               label: 'Share',
-              onTap: () => print('Share'),
+              onTap: () {
+                Share.share("${post.caption}\n${post.timeAgo}");
+              },
             )
           ],
         ),
