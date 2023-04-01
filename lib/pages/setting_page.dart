@@ -179,7 +179,7 @@ class _SettingPageState extends State<SettingPage> {
           ListTile(
             // leading: ProfileAvatar(imageUrl: URLs.imageFolder + (GetStorage().read('profile')['image_url']??"")),
             title: isLogin! ? Headline5(
-              "",// "${GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'].toString()}",//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
+              GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'],// "${GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'].toString()}",//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
               textAlign: TextAlign.center,
             ):Headline5(
               'login'.tr(),//"${FirebaseAuth.instance.currentUser!.phoneNumber}",
