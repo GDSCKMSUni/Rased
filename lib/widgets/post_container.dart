@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
+import 'package:rasedapp_ye/login/login_page.dart';
 import 'package:rasedapp_ye/pages/comments_bottom_sheet.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,7 +37,12 @@ class _PostContainerState extends State<PostContainer> {
     }else{
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please Login to Rased App")));
+                  SnackBar(content: Row(
+            children: [
+              Text("Please Login to Rased App"),
+              TextButton(onPressed: ()=>Get.offAll(()=>LoginPage()), child: Text('login'.tr(),style: TextStyle(color:Colors.blue),))
+            ],
+          )));
     }
   }
   openCommentBottomSheet(){

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:rasedapp_ye/functions.dart';
+import 'package:rasedapp_ye/login/login_page.dart';
 import 'package:rasedapp_ye/models/comment.dart';
 import 'package:rasedapp_ye/models/post_model.dart';
 import 'package:rasedapp_ye/models/user_model.dart';
@@ -91,7 +93,12 @@ fetchAllPostComments();
       else{
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please Login to Rased App")));
+          SnackBar(content: Row(
+            children: [
+              Text("Please Login to Rased App"),
+              TextButton(onPressed: ()=>Get.offAll(()=>LoginPage()), child: Text('login'.tr(),style: TextStyle(color:Colors.blue),)),
+            ],
+          )));
       }
     }
   }
