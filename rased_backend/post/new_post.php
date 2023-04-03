@@ -9,6 +9,8 @@ $date = filterRequest('date');
 $address = filterRequest('address');
 $phone = filterRequest('phone');
 $details = filterRequest('details');
+$lat = filterRequest('lat');
+$long = filterRequest('long');
 
 
 $imageName = imageUpload("image");
@@ -16,10 +18,10 @@ $imageName = imageUpload("image");
 if ($imageName != "FAILED") {
     $stmt = $con->prepare("INSERT INTO `posts` 
     ( `user_id`, `user_name`, `date`, `address`,
-     `phone`, `details`, `image_url`) 
-     VALUES (? , ? , ? , ? , ? , ? , ?)");
+     `phone`, `details`, `image_url`,`lat`,`long`) 
+     VALUES (? , ? , ? , ? , ? , ? , ? , ? , ?)");
 
-    $stmt->execute(array($id,$name,$date,$address,$phone,$details, $imageName));
+    $stmt->execute(array($id,$name,$date,$address,$phone,$details, $imageName,$lat,$long));
 
     $count = $stmt->rowCount();
     if ($count > 0)

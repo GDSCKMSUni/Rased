@@ -9,6 +9,8 @@ class Post {
   final String caption;
   final String timeAgo;
   final String imageUrl;
+  final String lat;
+  final String long;
   int likes;
   int comments;
   final int shares;
@@ -21,6 +23,8 @@ class Post {
     required this.caption,
     required this.timeAgo,
     required this.imageUrl,
+    required this.lat,
+    required this.long,
     required this.likes,
     required this.comments,
     required this.shares,

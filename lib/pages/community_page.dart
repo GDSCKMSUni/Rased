@@ -78,6 +78,8 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
             likes: response['data'][i]['likes'],
             postId: response['data'][i]['post_id'],
             caption: response['data'][i]['details'],
+            lat: response['data'][i]['lat'],
+            long: response['data'][i]['long'],
             imageUrl: URLs.imageFolder + response['data'][i]['image_url'],
             shares: 20,
             timeAgo: response['data'][i]['date'].toString().substring(0,15),

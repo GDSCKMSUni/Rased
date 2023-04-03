@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -62,9 +63,10 @@ requestPeremision()async{
     await Permission.storage.request();
   }
 
-    var status3 = await Permission.manageExternalStorage.status;
-  if(!status1.isGranted){
-    await Permission.manageExternalStorage.request();
+
+  var status2 = await Permission.location.status;
+  if(!status2.isGranted){
+    await Permission.location.request();
   }
 }
  postRequestWithFile(String url,Map data,File file) async{
@@ -92,3 +94,25 @@ requestPeremision()async{
     print("Error ${myRequest.statusCode}");
   }
 }
+
+Future getCurrentLocation() async{
+  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if(serviceEnabled){
+    return await Geolocator.getCurrentPosition();
+;
+  }
+  return null;
+  // LocationPermission permission = await Geolocator.checkPermission();
+  // if(permission == LocationPermission.denied){
+  //   permission = await Geolocator.requestPermission();
+  //   if(permission == LocationPermission.denied){
+  //     return null;
+  //   }
+  // }
+  // if(permission == LocationPermission.deniedForever){
+  //   return null;
+  // }
+
+}
+
+

@@ -2,6 +2,8 @@
     package="com.rasedappye.rasedapp_ye">
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARES_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
    <application
         android:label="rasedapp_ye"
         android:name="${applicationName}"

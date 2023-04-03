@@ -36,6 +36,8 @@ dependencies:
   permission_handler: ^7.1.0
   grouped_list: ^5.1.2
   share: 
+  geolocator: 
+  google_maps_flutter: 
 
 dev_dependencies:
   flutter_test:

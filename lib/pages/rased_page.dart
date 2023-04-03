@@ -128,7 +128,10 @@ class _RasedPageState extends State<RasedPage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            if (formKey.currentState!.validate()) {
+          var locationValue = await getCurrentLocation();
+
+             if(locationValue != null){
+                if (formKey.currentState!.validate()) {
               if (file != null) {
                 if(GetStorage().read('profile')!=null){
                 var response = await postRequestWithFile(
@@ -140,6 +143,8 @@ class _RasedPageState extends State<RasedPage> {
                       'date': DateTime.now().toString(),
                       'phone': phoneController.text,
                       'details': detailsController.text,
+                      'lat': locationValue.latitude.toString(),
+                      'long': locationValue.longitude.toString(),
                     },
                     file!);
                                     nameController.text = "";
@@ -169,6 +174,14 @@ class _RasedPageState extends State<RasedPage> {
                     SnackBar(content: Text("Please select the image")));
               }
             }
+
+              else {
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("You Must Allow Rased App To Access To Location")));
+              }
+             }
+            
           },
           backgroundColor: AppThemes.primaryColor,
           child: Icon(Icons.upload)),

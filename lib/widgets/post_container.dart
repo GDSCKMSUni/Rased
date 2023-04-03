@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
@@ -5,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:rasedapp_ye/login/login_page.dart';
 import 'package:rasedapp_ye/pages/comments_bottom_sheet.dart';
+import 'package:rasedapp_ye/pages/map_page.dart';
+import 'package:rasedapp_ye/widgets/circle_button.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -141,9 +145,10 @@ class _PostHeader extends StatelessWidget {
             ],
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('More'),
+        CircleButton(
+          iconSize: 20,
+          icon: Icons.location_on_outlined,
+          onPressed: () =>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MapPage(lat: double.parse(post.lat), long: double.parse(post.long)))),
         ),
       ],
     );
@@ -179,7 +184,7 @@ class _PostStats extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            const SizedBox(width: 4.0),
+                        const SizedBox(width: 4.0),
             Expanded(
               child: Text(
                 '${post.likes}',
@@ -188,6 +193,7 @@ class _PostStats extends StatelessWidget {
                 ),
               ),
             ),
+
             Text(
               '${post.comments} Comments',
               style: TextStyle(
@@ -205,6 +211,7 @@ class _PostStats extends StatelessWidget {
         ),
         const Divider(),
         Row(
+          
           children: [
             _PostButton(
               icon: Icons.thumb_up_outlined,
@@ -225,7 +232,7 @@ class _PostStats extends StatelessWidget {
               onTap: () {
                 Share.share("${post.caption}\n${post.timeAgo}");
               },
-            )
+            ),
           ],
         ),
       ],

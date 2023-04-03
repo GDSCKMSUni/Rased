@@ -79,5 +79,6 @@
   "save":"Save",
   "cancel" : "Cancel",
   "image":"Profile Image",
-  "login":"Login"
+  "login":"Login",
+  "map":"Google Map"
 }

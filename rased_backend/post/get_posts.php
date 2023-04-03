@@ -6,6 +6,7 @@ include "../functions.php";
 
 $id = filterRequest('id');
 $stmt = $con->prepare("SELECT p.post_id, p.user_id, `user_name`,
+`lat`,`long`,
 `date`, `address`, `phone`,
  `details`, `image_url`,CASE
    WHEN k.user_id IS Not NULL and k.user_id =? THEN 1
