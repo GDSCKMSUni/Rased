@@ -8,11 +8,9 @@ import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/login/login_page.dart';
 import 'package:rasedapp_ye/utils/app_themes.dart';
-import 'package:path/path.dart';
 import 'package:rasedapp_ye/utils/app_widgets.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
 import 'package:rasedapp_ye/widgets/circle_button.dart';
-import 'dart:convert';
 
 import '../widgets/textfield_widget.dart';
 
@@ -88,7 +86,7 @@ class _RasedPageState extends State<RasedPage> {
                               ScaffoldMessenger.of(context)
                                   .removeCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       content:
                                           Text("Please select the image")));
                             }
@@ -107,7 +105,7 @@ class _RasedPageState extends State<RasedPage> {
                               ScaffoldMessenger.of(context)
                                   .removeCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       content:
                                           Text("Please select the image")));
                             }
@@ -157,34 +155,34 @@ class _RasedPageState extends State<RasedPage> {
                 AppWidgets().MyDialog2(
                   context: context,
                   title: "Post Send Succesful",
-                 body: Icon(Icons.done_outline,size: 70,color: AppThemes.primaryColor,));
+                 body: const Icon(Icons.done_outline,size: 70,color: AppThemes.primaryColor,));
                 }else{
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Row(
             children: [
-              Text("Please Login to Rased App"),
-              TextButton(onPressed: ()=>Get.offAll(()=>LoginPage()), child: Text('login'.tr(),style: TextStyle(color:Colors.blue),))
+              const Text("Please Login to Rased App"),
+              TextButton(onPressed: ()=>Get.offAll(()=>const LoginPage()), child: Text('login'.tr(),style: const TextStyle(color:Colors.blue),))
             ],
           )));
                 }
               } else {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Please select the image")));
+                    const SnackBar(content: Text("Please select the image")));
               }
             }
 
               else {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("You Must Allow Rased App To Access To Location")));
+                    const SnackBar(content: Text("You Must Allow Rased App To Access To Location")));
               }
              }
             
           },
           backgroundColor: AppThemes.primaryColor,
-          child: Icon(Icons.upload)),
+          child: const Icon(Icons.upload)),
     );
   }
 }

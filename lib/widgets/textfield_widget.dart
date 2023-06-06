@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class textFieldWidget extends StatelessWidget {
   textFieldWidget({super.key, required this.hint, this.maxlines,required this.controller,this.isOptional=false});
@@ -11,10 +10,10 @@ class textFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8, ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8, ),
         child: TextFormField(
           validator: (value) {
-            if(value!.length > 0 || isOptional!){
+            if(value!.isNotEmpty || isOptional!){
               return null;
             }
             return "Please enter the $hint";
@@ -23,7 +22,7 @@ class textFieldWidget extends StatelessWidget {
           maxLines: maxlines,
           decoration: InputDecoration(
             hintText: hint,
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFF42C3A7),
                 width: 2,
@@ -34,19 +33,19 @@ class textFieldWidget extends StatelessWidget {
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Color(0xFF42C3A7).withOpacity(0.1),
+                color: const Color(0xFF42C3A7).withOpacity(0.1),
                 width: 1,
               ),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12)),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Color(0xFF42C3A7).withOpacity(0.5),
+                color: const Color(0xFF42C3A7).withOpacity(0.5),
                 width: 1,
               ),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12)),
             ),

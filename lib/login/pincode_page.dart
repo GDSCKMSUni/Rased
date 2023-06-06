@@ -5,15 +5,10 @@ import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/pages/get_started.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
 
-import '../main.dart';
 // import '../utils/app_helper.dart';
 import '../utils/app_themes.dart';
-import '../utils/app_widgets.dart';
-import 'package:pinput/pinput.dart';
 import 'package:helpers/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:get/get.dart' hide Trans;
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -56,20 +51,20 @@ class _PincodePageState extends State<PincodePage> {
 
   _verifyPhone() async {
     
-    Timer(Duration(seconds: 15), () {
+    Timer(const Duration(seconds: 15), () {
       isSendLoading = false;
       setState(() {
       });
      });
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     response = await postRequest(URLs.signUp, {
       'phone':widget.phoneNumber
     });
     if(response['result']=='done'){
       // checkPinLoading = true;
       GetStorage().write('profile', response['data']);
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>GetStarted())
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>const GetStarted())
       , (route) => false);
     }
     isSendLoading = false;
@@ -118,7 +113,7 @@ class _PincodePageState extends State<PincodePage> {
     return Scaffold(
       appBar: AppBar(
         title: Headline6("verification".tr(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: AppThemes.lightGreyColor, fontWeight: FontWeight.bold)),
       ),
       body: Padding(
@@ -130,7 +125,7 @@ class _PincodePageState extends State<PincodePage> {
           children: [
             Headline5(
               "pleasWait".tr(),
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Headline6(
@@ -152,24 +147,24 @@ class _PincodePageState extends State<PincodePage> {
               child: (response['result']=='phone-error')?Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error_outline,color: Colors.red,size: 60,),
-                  SizedBox(height: 20,),
+                  const Icon(Icons.error_outline,color: Colors.red,size: 60,),
+                  const SizedBox(height: 20,),
                   Text(
                     "Sorry, the number you entered already exists",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 20,),
-                  OutlinedButton(onPressed: (){}, child: Text('Resend Code'))
+                  const SizedBox(height: 20,),
+                  OutlinedButton(onPressed: (){}, child: const Text('Resend Code'))
                 ],
-              ):(response['result']=='done')?SizedBox():Column(
+              ):(response['result']=='done')?const SizedBox():Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.error_outline,color: Colors.red,size: 60,),
-                  SizedBox(height: 20,),
+                  const Icon(Icons.error_outline,color: Colors.red,size: 60,),
+                  const SizedBox(height: 20,),
                   Text(
                     "Connection Failed...",
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center
                   )
                 ],

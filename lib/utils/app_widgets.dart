@@ -27,12 +27,12 @@ class AppWidgets {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      padding: Margin.all(16),
+                      padding: const Margin.all(16),
                       color: background,
                       child: Center(child: asset),
                     ),
                     Container(
-                      padding: Margin.all(16),
+                      padding: const Margin.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +55,7 @@ class AppWidgets {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           confirm ?? const SizedBox(),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           cancel ?? const SizedBox(),
@@ -87,7 +87,7 @@ class AppWidgets {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      padding: Margin.all(16),
+                      padding: const Margin.all(16),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -104,7 +104,7 @@ class AppWidgets {
                       ),
                     ),
                     Container(
-                      padding: Margin.all(16),
+                      padding: const Margin.all(16),
                       color: background,
                       child: Center(child: body),
                     ),
@@ -131,7 +131,7 @@ class AppWidgets {
           ),
           Headline5(
             title,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             textAlign: TextAlign.center,
           )
         ],

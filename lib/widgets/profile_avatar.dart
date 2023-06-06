@@ -23,7 +23,7 @@ class ProfileAvatar extends StatelessWidget {
           backgroundColor: Colors.blue,
           child: CircleAvatar(
             radius: hasBorder ? 17.0 : 20.0,
-            backgroundColor: Color.fromRGBO(238, 238, 238, 1),
+            backgroundColor: const Color.fromRGBO(238, 238, 238, 1),
             backgroundImage: CachedNetworkImageProvider(imageUrl),
           ),
         ),

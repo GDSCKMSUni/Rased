@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide Trans;
 import 'package:ionicons/ionicons.dart';
 import 'package:rasedapp_ye/main.dart';
 import 'package:rasedapp_ye/utils/app_themes.dart';
 import 'package:rasedapp_ye/widgets/setting_item.dart';
 
-import '../models/user_model.dart';
-import 'profile_avatar.dart';
 
 class CreatePostContainer extends StatelessWidget {
   // final User currentUser;
@@ -29,7 +26,7 @@ class CreatePostContainer extends StatelessWidget {
           subtitle: "شارك اي حدث مناخي, لمساعدة الأخرين في الابتعاد",
           title: "انت الراصد",
           iconBackground: AppThemes.primaryColor,
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(selectedIndex: 2,),)),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage(selectedIndex: 2,),)),
         )
         // Column(
         //   children: [

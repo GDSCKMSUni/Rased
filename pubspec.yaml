@@ -33,7 +33,7 @@ dependencies:
   url_launcher:
   path:
   image_picker: 
-  permission_handler: ^7.1.0
+  permission_handler: ^10.2.0
   grouped_list: ^5.1.2
   share: 
   geolocator: 

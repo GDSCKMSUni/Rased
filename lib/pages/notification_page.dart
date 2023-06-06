@@ -14,13 +14,13 @@ class NotificationPage extends StatelessWidget {
 
         title: Text(
           "notification".tr(),
-          style: TextStyle(
+          style: const TextStyle(
               color: AppThemes.lightGreyColor, fontWeight: FontWeight.bold),
         ),
       ),
       body: Center(
         child: Container(
-          child:Column(
+          child:const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(child: Icon(Ionicons.notifications_off_outline, size: 100,),),

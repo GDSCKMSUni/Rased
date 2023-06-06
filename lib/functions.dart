@@ -99,7 +99,6 @@ Future getCurrentLocation() async{
   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if(serviceEnabled){
     return await Geolocator.getCurrentPosition();
-;
   }
   return null;
   // LocationPermission permission = await Geolocator.checkPermission();

@@ -25,12 +25,12 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Headline6("map".tr(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: AppThemes.lightGreyColor, fontWeight: FontWeight.bold)),
       ),
       body: GoogleMap(
         markers: <Marker>{
-          Marker(position:LatLng(widget.lat!,widget.long!),icon: BitmapDescriptor.defaultMarker, markerId:MarkerId("1") ),
+          Marker(position:LatLng(widget.lat!,widget.long!),icon: BitmapDescriptor.defaultMarker, markerId:const MarkerId("1") ),
         },
         initialCameraPosition: CameraPosition(target: LatLng(widget.lat!,widget.long!)),
       )

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:rasedapp_ye/pages/comments_bottom_sheet.dart';
 import 'package:rasedapp_ye/pages/map_page.dart';
 import 'package:rasedapp_ye/widgets/circle_button.dart';
 import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../models/post_model.dart';
 import 'profile_avatar.dart';
@@ -43,8 +41,8 @@ class _PostContainerState extends State<PostContainer> {
         ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Row(
             children: [
-              Text("Please Login to Rased App"),
-              TextButton(onPressed: ()=>Get.offAll(()=>LoginPage()), child: Text('login'.tr(),style: TextStyle(color:Colors.blue),))
+              const Text("Please Login to Rased App"),
+              TextButton(onPressed: ()=>Get.offAll(()=>const LoginPage()), child: Text('login'.tr(),style: const TextStyle(color:Colors.blue),))
             ],
           )));
     }
@@ -59,7 +57,7 @@ class _PostContainerState extends State<PostContainer> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 5.0,
         horizontal: 0.0,
       ),
@@ -174,7 +172,7 @@ class _PostStats extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
                 shape: BoxShape.circle,
               ),
@@ -273,7 +271,7 @@ class _PostButton extends StatelessWidget {
                 size: 25.0,
               ),
                 const SizedBox(width: 4.0),
-                Text(label,style:isLiked&&icon==Icons.thumb_up_outlined? TextStyle(color:Colors.blueAccent ):TextStyle(),),
+                Text(label,style:isLiked&&icon==Icons.thumb_up_outlined? const TextStyle(color:Colors.blueAccent ):const TextStyle(),),
               ],
             ),
           ),

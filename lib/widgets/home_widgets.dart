@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:helpers/helpers.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/models/city.dart';
@@ -106,7 +104,7 @@ class _HomeState extends State<Home> {
     // var consolidatedWeather = result['consolidated_weather'];
       consolidatedWeatherList.clear();
       // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
-      var consolidatedWeather = await postRequestWithoutBody(URLs.weatherUrl + city.toString() +"&days=7");
+      var consolidatedWeather = await postRequestWithoutBody("${URLs.weatherUrl}$city&days=7");
         if(consolidatedWeather !=null){
           for(int i=0;i<7;i++)
             {
@@ -285,7 +283,7 @@ class _HomeState extends State<Home> {
                               //   return CircularProgressIndicator();
                               // },
                               imageUrl:
-                          /*'assets/images/' +*/'http:'+ imageUrl /*+ '.png'*/,
+                          /*'assets/images/' +*/'http:$imageUrl' /*+ '.png'*/,
                           // width: 150,
                           // height: 150,
                         ),
@@ -363,11 +361,11 @@ class _HomeState extends State<Home> {
                 const SizedBox(
                   height: 30,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Today',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -432,10 +430,8 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                consolidatedWeatherList[index]['day']['avgtemp_c']
-                                    .round()
-                                    .toString() +
-                                    "C",
+                                "${consolidatedWeatherList[index]['day']['avgtemp_c']
+                                    .round()}C",
                                 style: TextStyle(
                                   fontSize: 17,
                                   color: selectedDay == today

@@ -10,7 +10,6 @@ import 'package:rasedapp_ye/models/post_model.dart';
 import 'package:rasedapp_ye/models/user_model.dart';
 import 'package:rasedapp_ye/utils/app_themes.dart';
 // import 'package:rasedapp_ye/data/data.dart';
-import 'package:rasedapp_ye/utils/app_widgets.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
 import 'package:rasedapp_ye/widgets/circle_button.dart';
 
@@ -95,8 +94,8 @@ fetchAllPostComments();
           ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Row(
             children: [
-              Text("Please Login to Rased App"),
-              TextButton(onPressed: ()=>Get.offAll(()=>LoginPage()), child: Text('login'.tr(),style: TextStyle(color:Colors.blue),)),
+              const Text("Please Login to Rased App"),
+              TextButton(onPressed: ()=>Get.offAll(()=>const LoginPage()), child: Text('login'.tr(),style: const TextStyle(color:Colors.blue),)),
             ],
           )));
       }
@@ -112,11 +111,11 @@ fetchAllPostComments();
           minChildSize:  0.4,
           builder:(_,controller)=>Container(
               color: Colors.white,
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
@@ -133,7 +132,7 @@ fetchAllPostComments();
           Expanded(
             child: NotificationListener<OverscrollIndicatorNotification>(
               onNotification: (overScroll) {
-                overScroll.disallowGlow();
+                overScroll.disallowIndicator();
                 return false;
               },
               child: GroupedListView<Comment, String>(
@@ -147,10 +146,10 @@ fetchAllPostComments();
                     child: Card(
                       color: AppThemes.primaryColor,
                       child: Padding(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           child: Text(
                             comment.date,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           )),
                     ),
                   ),
@@ -174,7 +173,7 @@ fetchAllPostComments();
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 10, right: 10, bottom: 5, top: 2),
                           child: Text(comment.text),
                         ),
@@ -218,14 +217,14 @@ class TextBoxComment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 8),
+      margin: const EdgeInsets.only(left: 8),
       width: 100,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
               color: AppThemes.primaryColor, width: 2, style: BorderStyle.solid)),
       height: 50,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         focusNode: messageFocusController,
         controller: textMessageController,
@@ -233,7 +232,7 @@ class TextBoxComment extends StatelessWidget {
         onSubmitted: (text) {
           addComment();
         },
-        cursorRadius: Radius.circular(10),
+        cursorRadius: const Radius.circular(10),
         cursorWidth: 2,
         cursorColor: Colors.black,
         decoration: InputDecoration(
@@ -241,13 +240,13 @@ class TextBoxComment extends StatelessWidget {
           label: Text(
             'enterComment'.tr(),
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Color(0xff5b5b5b),
             fontSize: 17,
             // fontWeight: FontWeight.w500,
           ),
           alignLabelWithHint: true,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderSide: BorderSide.none,
           ),
         ),

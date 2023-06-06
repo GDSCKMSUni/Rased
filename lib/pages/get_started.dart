@@ -33,9 +33,9 @@ class GetStarted extends StatelessWidget {
                 child: Container(
                   height: 50,
                   width: size.width * 0.7,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppThemes.primaryColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: const Center(
                     child: Text('Get started', style: TextStyle(color: Colors.white, fontSize: 18),),

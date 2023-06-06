@@ -1,6 +1,5 @@
 
 // import 'package:firebase_core/firebase_core.dart';
-import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/splah_page.dart';
 
 import '../utils/app_themes.dart';
@@ -92,11 +91,11 @@ class _MainPageState extends State<MainPage> {
   late int _selectedIndex = widget.selectedIndex ?? 0;
 
   static List pages = [
-    HomePage(),
-    NotificationPage(),
-    RasedPage(),
-    CommunityPage(),
-    SettingPage(),
+    const HomePage(),
+    const NotificationPage(),
+    const RasedPage(),
+    const CommunityPage(),
+    const SettingPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -114,28 +113,28 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.home_outline),
-            activeIcon: Icon(Ionicons.home),
+            icon: const Icon(Ionicons.home_outline),
+            activeIcon: const Icon(Ionicons.home),
             label: 'home'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.notifications_outline),
-            activeIcon: Icon(Ionicons.notifications),
+            icon: const Icon(Ionicons.notifications_outline),
+            activeIcon: const Icon(Ionicons.notifications),
             label: 'notification'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.cart_outline),
-            activeIcon: Icon(Ionicons.cart),
+            icon: const Icon(Ionicons.cart_outline),
+            activeIcon: const Icon(Ionicons.cart),
             label: 'rased'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.people_outline),
-            activeIcon: Icon(Ionicons.people),
+            icon: const Icon(Ionicons.people_outline),
+            activeIcon: const Icon(Ionicons.people),
             label: 'community'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.settings_outline),
-            activeIcon: Icon(Ionicons.settings),
+            icon: const Icon(Ionicons.settings_outline),
+            activeIcon: const Icon(Ionicons.settings),
             label: 'profile'.tr(),
           ),
         ],

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 
-import '../utils/app_themes.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
 
 import '../widgets/home_widgets.dart';
 
@@ -12,7 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       // appBar: AppBar(
       //   leading: InkWell(onTap: (){},child: Icon(Ionicons.search_outline),),
       //   title: Text(

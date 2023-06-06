@@ -18,7 +18,7 @@ class Stories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200.0,
 
       child: ListView.builder(
@@ -90,7 +90,7 @@ class _StoryCard extends StatelessWidget {
               ? Container(
             height: 40.0,
             width: 40.0,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),

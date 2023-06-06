@@ -39,35 +39,35 @@ class AppThemes {
 
   static TextTheme lightTextTheme() {
     return const TextTheme(
-      headline1: TextStyle(color: darkColor, fontSize: 112),
-      headline2: TextStyle(color: darkColor, fontSize: 56),
-      headline3: TextStyle(color: darkColor, fontSize: 45),
-      headline4: TextStyle(color: darkColor, fontSize: 34),
-      headline5: TextStyle(color: darkColor, fontSize: 24),
-      headline6: TextStyle(color: darkColor, fontSize: 20),
-      subtitle1: TextStyle(color: darkColor, fontSize: 16),
-      subtitle2: TextStyle(color: darkColor, fontSize: 14),
-      bodyText1: TextStyle(color: darkColor, fontSize: 14),
-      bodyText2: TextStyle(color: darkColor, fontSize: 14),
-      overline: TextStyle(color: darkColor, fontSize: 10),
-      caption: TextStyle(color: darkColor, fontSize: 12),
+      displayLarge: TextStyle(color: darkColor, fontSize: 112),
+      displayMedium: TextStyle(color: darkColor, fontSize: 56),
+      displaySmall: TextStyle(color: darkColor, fontSize: 45),
+      headlineMedium: TextStyle(color: darkColor, fontSize: 34),
+      headlineSmall: TextStyle(color: darkColor, fontSize: 24),
+      titleLarge: TextStyle(color: darkColor, fontSize: 20),
+      titleMedium: TextStyle(color: darkColor, fontSize: 16),
+      titleSmall: TextStyle(color: darkColor, fontSize: 14),
+      bodyLarge: TextStyle(color: darkColor, fontSize: 14),
+      bodyMedium: TextStyle(color: darkColor, fontSize: 14),
+      labelSmall: TextStyle(color: darkColor, fontSize: 10),
+      bodySmall: TextStyle(color: darkColor, fontSize: 12),
     );
   }
 
   static TextTheme darkTextTheme() {
     return const TextTheme(
-      headline1: TextStyle(color: lightGreyColor, fontSize: 112),
-      headline2: TextStyle(color: lightGreyColor, fontSize: 56),
-      headline3: TextStyle(color: lightGreyColor, fontSize: 45),
-      headline4: TextStyle(color: lightGreyColor, fontSize: 34),
-      headline5: TextStyle(color: lightGreyColor, fontSize: 24),
-      headline6: TextStyle(color: lightGreyColor, fontSize: 20),
-      subtitle1: TextStyle(color: lightGreyColor, fontSize: 16),
-      subtitle2: TextStyle(color: lightGreyColor, fontSize: 14),
-      bodyText1: TextStyle(color: lightGreyColor, fontSize: 14),
-      bodyText2: TextStyle(color: lightGreyColor, fontSize: 14),
-      overline: TextStyle(color: lightGreyColor, fontSize: 10),
-      caption: TextStyle(color: lightGreyColor, fontSize: 12),
+      displayLarge: TextStyle(color: lightGreyColor, fontSize: 112),
+      displayMedium: TextStyle(color: lightGreyColor, fontSize: 56),
+      displaySmall: TextStyle(color: lightGreyColor, fontSize: 45),
+      headlineMedium: TextStyle(color: lightGreyColor, fontSize: 34),
+      headlineSmall: TextStyle(color: lightGreyColor, fontSize: 24),
+      titleLarge: TextStyle(color: lightGreyColor, fontSize: 20),
+      titleMedium: TextStyle(color: lightGreyColor, fontSize: 16),
+      titleSmall: TextStyle(color: lightGreyColor, fontSize: 14),
+      bodyLarge: TextStyle(color: lightGreyColor, fontSize: 14),
+      bodyMedium: TextStyle(color: lightGreyColor, fontSize: 14),
+      labelSmall: TextStyle(color: lightGreyColor, fontSize: 10),
+      bodySmall: TextStyle(color: lightGreyColor, fontSize: 12),
     );
 
   }

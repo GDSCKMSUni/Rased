@@ -3,9 +3,7 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:rasedapp_ye/login/login_page.dart';
-import 'package:rasedapp_ye/utils/urls.dart';
 import 'package:rasedapp_ye/widgets/circle_button.dart';
-import 'package:rasedapp_ye/widgets/profile_avatar.dart';
 import 'package:rasedapp_ye/widgets/setting_item.dart';
 import 'package:rasedapp_ye/widgets/textfield_widget.dart';
 
@@ -17,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
-import 'package:url_launcher/url_launcher.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -43,15 +40,16 @@ class _SettingPageState extends State<SettingPage> {
     phoneController = TextEditingController();
     formKey = GlobalKey<FormState>();
     isLogin = GetStorage().read('profile') != null;
-        if(isLogin!)
-    nameController = TextEditingController(text:GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'].toString());
-    else  
-    nameController = TextEditingController(text:"");
+        if(isLogin!) {
+          nameController = TextEditingController(text:GetStorage().read('profile')['user_name']??GetStorage().read('profile')['user_id'].toString());
+        } else {
+          nameController = TextEditingController(text:"");
+        }
   }
 
   changeProfile(){
-    if(isLogin!)
-    AppWidgets().MyDialog2(
+    if(isLogin!) {
+      AppWidgets().MyDialog2(
                   context: context,
                   title: "account".tr(),
                   body: SingleChildScrollView(
@@ -61,14 +59,14 @@ class _SettingPageState extends State<SettingPage> {
                         children: [
                           Text(
                             'nameInput'.tr(),
-                            style: Theme.of(context).textTheme.headline6,),
+                            style: Theme.of(context).textTheme.titleLarge,),
                           textFieldWidget(
                             hint: "nameInput".tr(),
                             controller: nameController!),
-                          SizedBox(height: 20,),
+                          const SizedBox(height: 20,),
                                                     Text(
                             'image'.tr(),
-                            style: Theme.of(context).textTheme.headline6,),
+                            style: Theme.of(context).textTheme.titleLarge,),
                           StatefulBuilder(builder: (context,setState){
                             return Column(
                               children: [
@@ -87,7 +85,7 @@ class _SettingPageState extends State<SettingPage> {
                               ScaffoldMessenger.of(context)
                                   .removeCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       content:
                                           Text("Please select the image")));
                             }
@@ -106,7 +104,7 @@ class _SettingPageState extends State<SettingPage> {
                               ScaffoldMessenger.of(context)
                                   .removeCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       content:
                                           Text("Please select the image")));
                             }
@@ -125,27 +123,27 @@ class _SettingPageState extends State<SettingPage> {
                               ],
                             );
                           }),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton.icon(
                               onPressed: (){},
-                              icon: Icon(Icons.save_outlined,color: Colors.white,),
+                              icon: const Icon(Icons.save_outlined,color: Colors.white,),
                                label: Text(
                                 'save'.tr(),
-                                style: Theme.of(context).textTheme.headline6,
+                                style: Theme.of(context).textTheme.titleLarge,
                               )),
-                            SizedBox(width: 20,),                    
+                            const SizedBox(width: 20,),                    
                             ElevatedButton.icon(
                               onPressed: () => Navigator.pop(context),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red
                               ),
-                              icon: Icon(Icons.cancel_outlined,color: Colors.white,),
+                              icon: const Icon(Icons.cancel_outlined,color: Colors.white,),
                                label: Text(
                                 'cancel'.tr(),
-                                style: Theme.of(context).textTheme.headline6,
+                                style: Theme.of(context).textTheme.titleLarge,
                               )),
                           ],
                         )
@@ -154,8 +152,8 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   )
                 );
-                else{
-                   Get.offAll(() => LoginPage());
+    } else{
+                   Get.offAll(() => const LoginPage());
                 }
   }
   @override
@@ -163,7 +161,7 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       appBar: AppBar(
         title: Headline6("profile".tr(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: AppThemes.lightGreyColor, fontWeight: FontWeight.bold)),
       ),
       body: ListView(
@@ -188,14 +186,14 @@ class _SettingPageState extends State<SettingPage> {
             subtitle: isLogin! ? Text(
               GetStorage().read('profile')['phone'],
               textAlign: TextAlign.center,
-            ):SizedBox.shrink(),
+            ):const SizedBox.shrink(),
             onTap: changeProfile,
           ),
           const Divider(),
           ListTile(
             title: Headline6(
               "settings".tr(),
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           profileItem(
@@ -237,7 +235,7 @@ class _SettingPageState extends State<SettingPage> {
               title: "account".tr(),
               subtitle: "",
               iconBackground: Colors.blueAccent,
-              onTap: changeProfile) : SizedBox.shrink(),
+              onTap: changeProfile) : const SizedBox.shrink(),
           isLogin! ?profileItem(
               icon: Ionicons.log_out_outline,
               title: "logout".tr(),
@@ -251,7 +249,7 @@ class _SettingPageState extends State<SettingPage> {
                       size: 80,
                       color: Colors.white,
                     ),
-                    background: Color(0xff3DB2FF),
+                    background: const Color(0xff3DB2FF),
                     title: "logout".tr(),
                     subtitle: "logoutConfirm".tr(),
                     confirm: ElevatedButton(
@@ -266,7 +264,7 @@ class _SettingPageState extends State<SettingPage> {
                           //     .then((value) => Get.offAll(() => SplashPage()));
                           GetStorage().remove('isLogin');
                           GetStorage().remove('profile');
-                          Get.offAll(() => SplashPage());
+                          Get.offAll(() => const SplashPage());
                         },
                         child: Text("yes".tr())),
                     cancel: ElevatedButton(
@@ -275,19 +273,19 @@ class _SettingPageState extends State<SettingPage> {
                         },
                         style: Get.theme.elevatedButtonTheme.style!.copyWith(
                             backgroundColor:
-                            MaterialStateProperty.all(Color(0xffDF2E2E))),
+                            MaterialStateProperty.all(const Color(0xffDF2E2E))),
                         child: Text("no".tr())));
-              }):SizedBox.shrink(),
+              }):const SizedBox.shrink(),
               !isLogin! ? profileItem(
               icon: Icons.login_outlined,
               title: "login".tr(),
               subtitle: "",
               iconBackground: Colors.teal,
-              onTap: changeProfile) : SizedBox.shrink(),
+              onTap: changeProfile) : const SizedBox.shrink(),
           ListTile(
             title: Headline6(
               "aboutApp".tr(),
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           profileItem(

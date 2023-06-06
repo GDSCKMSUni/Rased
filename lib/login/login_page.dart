@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: Headline6(
             "signup".tr(),
-            style: TextStyle(
+            style: const TextStyle(
                 color: AppThemes.lightGreyColor, fontWeight: FontWeight.bold),
           ),
         ),
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Headline5(
                 "phoneNumber".tr(),
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               Headline6(
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     ? context.color.primary
                     : Colors.grey,
                 shape: RoundedRectangleBorder(borderRadius: EdgeRadius.all(10)),
-                title: Center(
+                title: const Center(
                   child: Headline6(
                     "Vertifiy Number",
                     style: TextStyle(
@@ -102,15 +102,15 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               ListTile(
                 onTap:  () {
                   GetStorage().write('isVisitor', true);
-                  Get.to(() => MainPage());
+                  Get.to(() => const MainPage());
                 },
                 tileColor: context.color.primary,
                 shape: RoundedRectangleBorder(borderRadius: EdgeRadius.all(10)),
-                title: Center(
+                title: const Center(
                   child: Headline6(
                     "Registration as a Visitor",
                     style: TextStyle(

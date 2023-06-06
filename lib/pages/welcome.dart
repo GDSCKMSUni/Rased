@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/main.dart';
-import 'package:rasedapp_ye/pages/get_started.dart';
 import 'package:rasedapp_ye/utils/app_themes.dart';
 import 'package:rasedapp_ye/utils/app_widgets.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
@@ -33,7 +31,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 15), () {
+    Timer(const Duration(seconds: 15), () {
       isConnect = false;
       setState(() {});
     }).runtimeType;
@@ -63,11 +61,11 @@ class _WelcomeState extends State<Welcome> {
         automaticallyImplyLeading: false,
         backgroundColor: AppThemes.mainColor,
         title: Text(
-          selectedCities.length.toString() + ' selected',
-          style: AppThemes.darkTextTheme().headline6,
+          '${selectedCities.length} selected',
+          style: AppThemes.darkTextTheme().titleLarge,
         ),
       ),
-      body: (cities.length > 0)
+      body: (cities.isNotEmpty)
           ? ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: cities.length,
@@ -127,21 +125,21 @@ class _WelcomeState extends State<Welcome> {
               },
             )
           : (isConnect)
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.error_outline,
                         color: Colors.red,
                         size: 60,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Text("Connection Failed...",
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.center)
                     ],
                   ),
@@ -153,9 +151,9 @@ class _WelcomeState extends State<Welcome> {
           color: Colors.white,
         ),
         onPressed: () {
-          if (selectedCities.length == 0) {
+          if (selectedCities.isEmpty) {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Please select at least one city"),
               duration: Duration(seconds: 3),
             ));
@@ -165,7 +163,7 @@ class _WelcomeState extends State<Welcome> {
                 subtitle: "Please select one defualt city",
                 context: context,
                 body: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: selectedCities.length,
                     itemBuilder: (context, i) {
@@ -178,9 +176,9 @@ class _WelcomeState extends State<Welcome> {
                           groupValue: selectedCityId,
                           onChanged: (val) async {
                             var citiesId = "";
-                            selectedCities.forEach((c) {
-                              citiesId += c.cityId.toString() + "&";
-                            });
+                            for (var c in selectedCities) {
+                              citiesId += "${c.cityId}&";
+                            }
                             citiesId =
                                 citiesId.substring(0, citiesId.length - 1);
                             Navigator.pop(context);
@@ -205,7 +203,7 @@ class _WelcomeState extends State<Welcome> {
                               AppWidgets().MyDialog2(
                               title: "Connection Failed...",
                                   context: context,
-                                  body: Column(
+                                  body: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(

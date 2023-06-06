@@ -14,7 +14,7 @@ class Rooms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 0.0),
+      margin: const EdgeInsets.symmetric(horizontal: 0.0),
 
       child: Container(
         height: 60.0,
@@ -28,8 +28,8 @@ class Rooms extends StatelessWidget {
           itemCount: 1 + onlineUsers.length,
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
                 // child: _CreateRoomButton(),
               );
             }

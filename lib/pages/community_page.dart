@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:rasedapp_ye/functions.dart';
 import 'package:rasedapp_ye/models/user_model.dart';
-import 'package:rasedapp_ye/pages/get_started.dart';
 import 'package:rasedapp_ye/utils/urls.dart';
 
 import '../models/post_model.dart';
-import '../utils/app_themes.dart';
-import '../widgets/circle_button.dart';
 import '../widgets/create_post_container.dart';
 import '../widgets/post_container.dart';
-import '../widgets/rooms.dart';
-import '../widgets/stories.dart';
 
 class CommunityPage extends StatelessWidget {
   // final TrackingScrollController _trackingScrollController =
@@ -25,12 +18,12 @@ class CommunityPage extends StatelessWidget {
   //   _trackingScrollController.dispose();
   //   super.dispose();
   // }
-  CommunityPage({Key? key}) : super(key: key);
+  const CommunityPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Scaffold(
+      child: const Scaffold(
         // appBar: AppBar(
         //   leading: InkWell(
         //     onTap: () {},
@@ -126,12 +119,11 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
     return CustomScrollView(
       // controller: scrollController,
       slivers: [
-        SliverAppBar(
-          brightness: Brightness.light,
+        const SliverAppBar(
           backgroundColor: Colors.white,
           title: Text(
             'المجتمع',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.green,
               fontSize: 28.0,
               fontWeight: FontWeight.bold,
@@ -139,7 +131,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
             ),
           ),
           centerTitle: false,
-          floating: true,
+          floating: true, systemOverlayStyle: SystemUiOverlayStyle.dark,
           // actions: [
           //   CircleButton(
           //     icon: Icons.search,
@@ -153,7 +145,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
           //   ),
           // ],
         ),
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: CreatePostContainer(/*currentUser: currentUser*/),
         ),
         // SliverPadding(
@@ -172,13 +164,13 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
         //   ),
         // ),
         
-        posts.length == 0 ? 
+        posts.isEmpty ? 
         SliverToBoxAdapter(
           child: Center(
             child: Column(
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height / 4,),
-                CircularProgressIndicator(),
+                const CircularProgressIndicator(),
               ],
             ),
           ),
