@@ -102,16 +102,23 @@ class _HomeState extends State<Home> {
     // await http.get(Uri.parse());
     // var result = json.decode(weatherResult.body);
     // var consolidatedWeather = result['consolidated_weather'];
-      consolidatedWeatherList.clear();
-      // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
-      var consolidatedWeather = await postRequestWithoutBody("${URLs.weatherUrl}$city&days=7");
-        if(consolidatedWeather !=null){
-          for(int i=0;i<7;i++)
-            {
-              consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][i]); 
-            }
-        } 
-        
+      // consolidatedWeatherList.clear();
+      // // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: 0)));
+      // var consolidatedWeather = await postRequestWithoutBody("${URLs.weatherUrl}$city&days=7");
+      //   if(consolidatedWeather !=null){
+      //     for(int i=1;i<8;i++)
+      //       {
+      //         consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][i]); 
+      //       }
+      //   } 
+        consolidatedWeatherList.clear();
+var consolidatedWeather = await postRequestWithoutBody("${URLs.weatherUrl}$city&days=7");
+if (consolidatedWeather != null) {
+  for (int i = 0; i < consolidatedWeather['forecast']['forecastday'].length; i++) {
+    consolidatedWeatherList.add(consolidatedWeather['forecast']['forecastday'][i]); 
+  }
+}
+
  
       // await Future.forEach([1,2,3,4,5,6,7], (element) async{
       // var date = DateFormat("yyyy-MM-dd").format(DateTime.now().add(Duration(days: element)));
